@@ -47,6 +47,10 @@ const Login = () => {
     },
   });
 
+  toast.success("Success");
+  toast.error("Error");
+  toast("Info");
+
   return (
     <>
       <form onSubmit={login_request.handleSubmit}>
