@@ -1,15 +1,16 @@
 "use client";
 
-import { login_user } from "@/app/services/auth";
+import { login_user } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useFormik } from "formik";
-import { login_types } from "@/utils";
+import { login_schema, login_types } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useAuth, useUser } from "@/context";
 import toast from "react-hot-toast";
+import { MdButton } from "@/components";
 
 const Login = () => {
   const router = useRouter();
@@ -22,8 +23,11 @@ const Login = () => {
   });
 
   const loginQuery = useMutation({
-    mutationFn: (payload: login_types) => login_user(payload),
-    onError(error, variables, context) {},
+    mutationFn: login_user,
+    onError(error: any, variables, context) {
+      // Throw toast notification
+      toast.error(error?.response?.data);
+    },
     onSuccess(data, variables, context) {
       // Set isAuthenticated to true and set userDetails to global state
       set_user(data);
@@ -41,33 +45,29 @@ const Login = () => {
 
   const login_request = useFormik({
     initialValues: login_body,
+    validationSchema: login_schema,
     onSubmit: (values: login_types) => {
-      console.log(values);
       loginQuery.mutate(values);
     },
   });
-
-  toast.success("Success");
-  toast.error("Error");
-  toast("Info");
 
   return (
     <>
       <form onSubmit={login_request.handleSubmit}>
         <div className="lg:mb-10">
-          <h2 className="font-bold text-st_black text-[36px] lg:text-[48px] lg:leading-[48px] mb-[40px] lg:mb-[34px]">
+          <h2 className="font-bold text-black text-[36px] lg:text-[48px] lg:leading-[48px] mb-[40px] lg:mb-[34px]">
             Sign in
           </h2>
-          <p className="font-normal text-st_grey lg:text-[18px] hidden lg:block">
+          <p className="font-normal text-grey lg:text-[18px] hidden lg:block">
             Don&apos;t have an account?{" "}
             <Link href="/register" className="font-medium text-green">
               Create now
             </Link>
           </p>
         </div>
-        <div>
+        <div className="text-black">
           <div className="mb-[30px]">
-            <label htmlFor="email" className="mb-[12px] text-st_grey">
+            <label htmlFor="email" className="mb-[12px] text-grey">
               Email
             </label>
             <input
@@ -78,9 +78,14 @@ const Login = () => {
               onChange={login_request.handleChange}
               value={login_request.values.email}
             />
+            {login_request.errors.email && login_request.touched.email && (
+              <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                {login_request.errors.email}
+              </div>
+            )}
           </div>
           <div className="mb-[45px]">
-            <label htmlFor="password" className="mb-[12px] text-st_grey">
+            <label htmlFor="password" className="mb-[12px] text-grey">
               Password
             </label>
             <input
@@ -91,9 +96,15 @@ const Login = () => {
               onChange={login_request.handleChange}
               value={login_request.values.password}
             />
+            {login_request.errors.password &&
+              login_request.touched.password && (
+                <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                  {login_request.errors.password}
+                </div>
+              )}
           </div>
           <div className="flex items-center justify-between mb-[45px]">
-            <div className="text-st_grey flex items-center gap-3">
+            <div className="text-grey flex items-center gap-3">
               <input type="checkbox" name="rememberMe" />
               <p>Remind me</p>
             </div>
@@ -102,18 +113,19 @@ const Login = () => {
             </Link>
           </div>
           <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center items-center py-3 bg-green rounded-[30px] lg:rounded-[20px] text-white100 text-[20px] leading-[28px] font-semibold">
+            <MdButton
+              extraClass="w-full"
+              onClick={login_request.handleSubmit}
+              isLoading={loginQuery.isPending}>
               Sign in
-            </button>
+            </MdButton>
           </div>
           <div className="my-[40px] flex items-center w-full gap-4">
-            <div className="bg-st_slate h-[1px] w-full flex-1" />
-            <span className="text-[12px] text-st_grey leading-[20px] font-medium">
+            <div className="bg-slate h-[1px] w-full flex-1" />
+            <span className="text-[12px] text-grey leading-[20px] font-medium">
               OR
             </span>
-            <div className="bg-st_slate h-[1px] w-full flex-1" />
+            <div className="bg-slate h-[1px] w-full flex-1" />
           </div>
           <div className="w-full flex flex-col gap-8">
             <button className="relative w-full flex bg-transparent justify-center items-center border border-solid border-[#CBD5E0] rounded-[30px] p-3 lg:p-4 text-[#67728A] text-[18px] font-medium leading-[28px]">
@@ -136,10 +148,10 @@ const Login = () => {
           </div>
           <div className="block lg:hidden mt-[35px] lg:mt-0">
             {" "}
-            <p className="font-normal text-st_grey text-[14px] lg:text-[18px] text-center">
+            <p className="font-normal text-grey text-[14px] lg:text-[18px] text-center">
               Don&apos;t have an account?{" "}
               <Link href="/register" className="font-medium text-green">
-                {loginQuery.isPending ? <></> : "Create now"}
+                Create now
               </Link>
             </p>
           </div>

@@ -18,14 +18,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // TODO: On component render, get access token from cookie, if it exists,
-    const token = document.cookie
-      .split("; ")
-      .find((c) => c.startsWith("access_token="))
-      ?.split("=")[1];
+    // const token = document.cookie
+    //   .split("; ")
+    //   .find((c) => c.startsWith("access_token="))
+    //   ?.split("=")[1];
+    const token = localStorage.getItem("access_token");
 
     console.log(token);
     setIsAuthenticated(!!token);
-  }, [document.cookie]);
+  }, []);
 
   console.log(isAuthenticated);
 

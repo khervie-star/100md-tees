@@ -7,10 +7,10 @@ const Register = () => {
     <>
       <form>
         <div className="lg:mb-10">
-          <h2 className="font-bold text-st_black text-[36px] lg:text-[48px] lg:leading-[48px] mb-[40px] lg:mb-[34px]">
+          <h2 className="font-bold text-black text-[36px] lg:text-[48px] lg:leading-[48px] mb-[40px] lg:mb-[34px]">
             Sign up
           </h2>
-          <p className="font-normal text-st_grey lg:text-[18px] hidden lg:block">
+          <p className="font-normal text-grey lg:text-[18px] hidden lg:block">
             Have an account?{" "}
             <Link href="/login" className="font-medium text-green">
               Login
@@ -20,7 +20,7 @@ const Register = () => {
         <div>
           <div className="mb-[30px] w-full flex flex-col lg:flex-row lg:gap-[20px]">
             <div className="flex-1 mb-[30px] lg:mb-0">
-              <label htmlFor="first_name" className="mb-[12px] text-st_grey">
+              <label htmlFor="first_name" className="mb-[12px] text-grey">
                 First Name
               </label>
               <input
@@ -31,7 +31,7 @@ const Register = () => {
               />
             </div>
             <div className="flex-1">
-              <label htmlFor="first_name" className="mb-[12px] text-st_grey">
+              <label htmlFor="first_name" className="mb-[12px] text-grey">
                 Last Name
               </label>
               <input
@@ -43,7 +43,7 @@ const Register = () => {
             </div>
           </div>
           <div className="mb-[30px]">
-            <label htmlFor="email" className="mb-[12px] text-st_grey">
+            <label htmlFor="email" className="mb-[12px] text-grey">
               Email
             </label>
             <input
@@ -54,7 +54,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-[30px]">
-            <label htmlFor="password" className="mb-[12px] text-st_grey">
+            <label htmlFor="password" className="mb-[12px] text-grey">
               Password
             </label>
             <input
@@ -65,7 +65,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-[45px]">
-            <label htmlFor="password" className="mb-[12px] text-st_grey">
+            <label htmlFor="password" className="mb-[12px] text-grey">
               Confirm Password
             </label>
             <input
@@ -84,11 +84,11 @@ const Register = () => {
             </button>
           </div>
           <div className="my-[40px] flex items-center w-full gap-4">
-            <div className="bg-st_slate h-[1px] w-full flex-1" />
-            <span className="text-[12px] text-st_grey leading-[20px] font-medium">
+            <div className="bg-slate h-[1px] w-full flex-1" />
+            <span className="text-[12px] text-grey leading-[20px] font-medium">
               OR
             </span>
-            <div className="bg-st_slate h-[1px] w-full flex-1" />
+            <div className="bg-slate h-[1px] w-full flex-1" />
           </div>
           <div className="w-full flex flex-col gap-8">
             <button className="relative w-full flex bg-transparent justify-center items-center border border-solid border-[#CBD5E0] rounded-[30px] p-3 lg:p-4 text-[#67728A] text-[18px] font-medium leading-[28px]">
@@ -110,7 +110,7 @@ const Register = () => {
             </button>
           </div>
           <div className="block lg:hidden mt-[35px] lg:mt-0">
-            <p className="font-normal text-st_grey text-[14px] lg:text-[18px] text-center">
+            <p className="font-normal text-grey text-[14px] lg:text-[18px] text-center">
               Have an account?{" "}
               <Link href="/login" className="font-medium text-green">
                 Login

@@ -32,8 +32,8 @@ export const CustomToastBar = () => {
           boxShadow: "0px 4px 16px 0px rgba(16, 11, 39, 0.08)",
           zIndex: 999,
         },
+        // duration: 4000,
         duration: Infinity,
-        // duration: Infinity,
 
         // Default options for specific types
         success: {
@@ -66,9 +66,9 @@ export const CustomToastBar = () => {
                       {t.type === "error" && "Error"}
                       {t.type === "blank" && "Info"}
                     </div>
-                    <p className="text-[12px] text-[#2F3F53] font-normal font-outfit leading-[100%] text-left w-fit">
+                    <div className="text-[12px] text-[#2F3F53] font-normal font-outfit leading-[100%] text-left w-fit [&>*]:!mx-0">
                       {message}
-                    </p>
+                    </div>
                   </div>
                 </div>
                 {t.type !== "loading" && (
