@@ -73,6 +73,12 @@ const Register = () => {
                 onChange={signup_request.handleChange}
                 value={signup_request.values.firstName}
               />
+              {signup_request.errors.firstName &&
+                signup_request.touched.firstName && (
+                  <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                    {signup_request.errors.firstName}
+                  </div>
+                )}
             </div>
             <div className="flex-1">
               <label htmlFor="first_name" className="mb-[12px] text-grey">
@@ -86,6 +92,12 @@ const Register = () => {
                 onChange={signup_request.handleChange}
                 value={signup_request.values.lastName}
               />
+              {signup_request.errors.lastName &&
+                signup_request.touched.lastName && (
+                  <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                    {signup_request.errors.lastName}
+                  </div>
+                )}
             </div>
           </div>
           <div className="mb-[30px]">
@@ -101,6 +113,12 @@ const Register = () => {
               value={signup_request.values.nickName}
             />
           </div>
+          {signup_request.errors.nickName &&
+            signup_request.touched.nickName && (
+              <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                {signup_request.errors.nickName}
+              </div>
+            )}
           <div className="mb-[30px]">
             <label htmlFor="email" className="mb-[12px] text-grey">
               Email
@@ -113,6 +131,11 @@ const Register = () => {
               onChange={signup_request.handleChange}
               value={signup_request.values.email}
             />
+            {signup_request.errors.email && signup_request.touched.email && (
+              <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                {signup_request.errors.email}
+              </div>
+            )}
           </div>
           <div className="mb-[30px]">
             <label htmlFor="password" className="mb-[12px] text-grey">
@@ -126,6 +149,12 @@ const Register = () => {
               onChange={signup_request.handleChange}
               value={signup_request.values.password}
             />
+            {signup_request.errors.password &&
+              signup_request.touched.password && (
+                <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                  {signup_request.errors.password}
+                </div>
+              )}
           </div>
           <div className="mb-[45px]">
             <label htmlFor="password" className="mb-[12px] text-grey">
@@ -139,6 +168,12 @@ const Register = () => {
               onChange={signup_request.handleChange}
               value={signup_request.values.confirmPassword}
             />
+            {signup_request.errors.confirmPassword &&
+              signup_request.touched.confirmPassword && (
+                <div className="text-red-700 text-[14px] font-medium mt-[2px]">
+                  {signup_request.errors.confirmPassword}
+                </div>
+              )}
           </div>
 
           <div>
