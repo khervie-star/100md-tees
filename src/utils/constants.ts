@@ -1,1 +1,1 @@
-export const TOAST_COUNT_LIMIT = 3;
+export const TOAST_COUNT_LIMIT = 2;

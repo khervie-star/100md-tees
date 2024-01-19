@@ -78,15 +78,6 @@ export const MainNav = () => {
             <Image className="h-[40px] w-full" src={logo} alt="" />
           </Link>
 
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}>
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
           <Popover.Group className="hidden lg:flex lg:gap-x-12 mx-10">
             <a
               href="#"
@@ -166,6 +157,15 @@ export const MainNav = () => {
             </a>
           </Popover.Group>
         </div>
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            onClick={() => setMobileMenuOpen(true)}>
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
         <div className="hidden lg:flex lg:justify-end">
           {isAuthenticated ? (
             <a
@@ -196,7 +196,7 @@ export const MainNav = () => {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 font-outfit">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">100MD Tees</span>
@@ -256,12 +256,17 @@ export const MainNav = () => {
                   Company
                 </a>
               </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+              <div className="py-6 flex flex-col gap-4">
+                <Link
+                  href="/login"
+                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
                   Log in
-                </a>
+                </Link>
+                <Link
+                  href="/register"
+                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
+                  Sign up
+                </Link>
               </div>
             </div>
           </div>

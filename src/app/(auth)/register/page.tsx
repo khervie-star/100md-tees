@@ -1,8 +1,50 @@
+"use client";
+
+import { MdButton } from "@/components";
+import { register_user } from "@/services/auth";
+import { signup_Schema, signup_body_types } from "@/utils";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import router from "next/router";
 import React from "react";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const [signup_body, setSignupBody] = React.useState({
+    firstName: "",
+    lastName: "",
+    nickName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const signupQuery = useMutation({
+    mutationFn: register_user,
+    onError(error: any, variables, context) {
+      // Throw toast notification
+      toast.error(error?.response?.data);
+    },
+    onSuccess(data, variables, context) {
+      // Throw toast notification
+      toast.success(
+        "Account created successfully, Please check your email for a verification code!"
+      );
+
+      // Redirect to the intended URL or a default one
+      router.push("/account/verify");
+    },
+  });
+
+  const signup_request = useFormik({
+    initialValues: signup_body,
+    validationSchema: signup_Schema,
+    onSubmit: (values: signup_body_types) => {
+      signupQuery.mutate(values);
+    },
+  });
   return (
     <>
       <form>
@@ -28,6 +70,8 @@ const Register = () => {
                 name="firstName"
                 placeholder="Moyinoluwa"
                 className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+                onChange={signup_request.handleChange}
+                value={signup_request.values.firstName}
               />
             </div>
             <div className="flex-1">
@@ -39,8 +83,23 @@ const Register = () => {
                 name="lastName"
                 placeholder="Afolabi"
                 className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+                onChange={signup_request.handleChange}
+                value={signup_request.values.lastName}
               />
             </div>
+          </div>
+          <div className="mb-[30px]">
+            <label htmlFor="email" className="mb-[12px] text-grey">
+              Nickname
+            </label>
+            <input
+              type="text"
+              name="nickName"
+              placeholder="Momo_"
+              className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+              onChange={signup_request.handleChange}
+              value={signup_request.values.nickName}
+            />
           </div>
           <div className="mb-[30px]">
             <label htmlFor="email" className="mb-[12px] text-grey">
@@ -49,8 +108,10 @@ const Register = () => {
             <input
               type="email"
               name="email"
-              placeholder="example@gmail.com"
+              placeholder="moyinoluwaafolabi@gmail.com"
               className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+              onChange={signup_request.handleChange}
+              value={signup_request.values.email}
             />
           </div>
           <div className="mb-[30px]">
@@ -62,6 +123,8 @@ const Register = () => {
               name="password"
               placeholder="Password"
               className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+              onChange={signup_request.handleChange}
+              value={signup_request.values.password}
             />
           </div>
           <div className="mb-[45px]">
@@ -73,15 +136,18 @@ const Register = () => {
               name="confirmPassword"
               placeholder="Password"
               className="w-full bg-transparent border border-solid border-[#CBD5E0] rounded-[12px] p-[12px]"
+              onChange={signup_request.handleChange}
+              value={signup_request.values.confirmPassword}
             />
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center items-center py-3 bg-green rounded-[30px] lg:rounded-[20px] text-white100 text-[20px] leading-[28px] font-semibold">
-              Sign up
-            </button>
+            <MdButton
+              extraClass="w-full"
+              onClick={signup_request.handleSubmit}
+              isLoading={signupQuery.isPending}>
+              Sign in
+            </MdButton>
           </div>
           <div className="my-[40px] flex items-center w-full gap-4">
             <div className="bg-slate h-[1px] w-full flex-1" />

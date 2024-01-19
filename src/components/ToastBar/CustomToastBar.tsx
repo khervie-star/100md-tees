@@ -32,8 +32,8 @@ export const CustomToastBar = () => {
           boxShadow: "0px 4px 16px 0px rgba(16, 11, 39, 0.08)",
           zIndex: 999,
         },
-        // duration: 4000,
-        duration: Infinity,
+        duration: 4000,
+        // duration: Infinity,
 
         // Default options for specific types
         success: {

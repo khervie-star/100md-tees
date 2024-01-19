@@ -24,6 +24,16 @@ export const login_user = async (payload: login_types) => {
   }
 };
 
+export const register_user = async (payload: login_types) => {
+  try {
+    const response = await apiInstance.post("/register", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const logout_user = async (logout_message: string) => {
   document.cookie =
     "access_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
