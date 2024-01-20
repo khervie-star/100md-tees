@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { apiInstance } from ".";
 import toast from "react-hot-toast";
-import { login_types } from "@/utils";
+import { login_types, signup_body_types } from "@/utils";
 // import { cookies } from "next/headers";
 
 export const login_user = async (payload: login_types) => {
@@ -24,7 +24,7 @@ export const login_user = async (payload: login_types) => {
   }
 };
 
-export const register_user = async (payload: login_types) => {
+export const register_user = async (payload: signup_body_types) => {
   try {
     const response = await apiInstance.post("/register", payload);
     return response.data;
@@ -48,5 +48,15 @@ export const logout_user = async (logout_message: string) => {
 
   if (logout_message) {
     toast(logout_message);
+  }
+};
+
+export const verify_email = async (payload: { otp: string }) => {
+  try {
+    const response = await apiInstance.post("/email/otp", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };

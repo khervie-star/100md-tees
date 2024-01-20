@@ -11,3 +11,20 @@
 body {
   color: rgb(var(--foreground-rgb));
 }
+
+.swiper-pagination {
+  position: relative !important;
+  text-align: center;
+  transition: 300ms opacity;
+  transform: translate3d(0, 0, 0);
+  z-index: 10;
+  margin-top: 28px;
+}
+.swiper-pagination-bullet {
+  background-color: white !important;
+  opacity: 0.35 !important;
+}
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+  opacity: 1 !important;
+}

@@ -1,17 +1,18 @@
 "use client";
 
 import { MdButton } from "@/components";
-import { register_user } from "@/services/auth";
+import { register_user } from "@/services";
 import { signup_Schema, signup_body_types } from "@/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const router = useRouter();
   const [signup_body, setSignupBody] = React.useState({
     firstName: "",
     lastName: "",
@@ -34,7 +35,7 @@ const Register = () => {
       );
 
       // Redirect to the intended URL or a default one
-      router.push("/account/verify");
+      router.push("/check-email");
     },
   });
 
@@ -181,7 +182,7 @@ const Register = () => {
               extraClass="w-full"
               onClick={signup_request.handleSubmit}
               isLoading={signupQuery.isPending}>
-              Sign in
+              Sign up
             </MdButton>
           </div>
           <div className="my-[40px] flex items-center w-full gap-4">

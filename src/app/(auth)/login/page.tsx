@@ -1,6 +1,6 @@
 "use client";
 
-import { login_user } from "@/services/auth";
+import { login_user } from "@/services";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuth, useUser } from "@/context";
 import toast from "react-hot-toast";
 import { MdButton } from "@/components";
+import { Checkbox } from "@nextui-org/react";
 
 const Login = () => {
   const router = useRouter();
@@ -104,11 +105,10 @@ const Login = () => {
               )}
           </div>
           <div className="flex items-center justify-between mb-[45px]">
-            <div className="text-grey flex items-center gap-3">
-              <input type="checkbox" name="rememberMe" />
-              <p>Remind me</p>
-            </div>
-            <Link href="#" className="font-semibold text-green">
+            <Checkbox defaultSelected color="primary" className="!text-white">
+              Remind me
+            </Checkbox>
+            <Link href="/password/forgot" className="font-semibold text-green">
               Forgot password?
             </Link>
           </div>

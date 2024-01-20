@@ -1,4 +1,4 @@
-import { TOAST_COUNT_LIMIT } from "@/utils/constants";
+import { TOAST_COUNT_LIMIT, TOAST_NOTIFICATION_DURATION } from "@/utils/";
 import React from "react";
 import { ToastBar, Toaster, toast, useToasterStore } from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
@@ -32,7 +32,7 @@ export const CustomToastBar = () => {
           boxShadow: "0px 4px 16px 0px rgba(16, 11, 39, 0.08)",
           zIndex: 999,
         },
-        duration: 4000,
+        duration: TOAST_NOTIFICATION_DURATION,
         // duration: Infinity,
 
         // Default options for specific types
