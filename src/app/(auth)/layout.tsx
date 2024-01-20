@@ -48,7 +48,7 @@ export default function AuthLayout({
           </div>
           <div className="lg:px-[50px]">{children}</div>
         </div>
-        <div className="w-full h-[inherit] lg:w-1/2 bg-green overflow-y-hidden">
+        <div className="hidden lg:block w-full h-[inherit] lg:w-1/2 bg-green overflow-y-hidden">
           <div className="relative w-full h-full">
             <div className="absolute -top-2 -right-6">
               <Image src={pattern} alt="" className="" />
