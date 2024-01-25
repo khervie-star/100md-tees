@@ -76,7 +76,7 @@ export const MainNav = () => {
         <div className="flex items-center lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">100MD Tees</span>
-            <Image className="h-[40px] w-full" src={logo} alt="" />
+            <Image className="h-6 lg:h-[40px] w-full" src={logo} alt="" />
           </Link>
 
           <Popover.Group className="hidden lg:flex lg:gap-x-12 mx-10">
