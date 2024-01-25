@@ -51,9 +51,54 @@ export const logout_user = async (logout_message: string) => {
   }
 };
 
-export const verify_email = async (payload: { otp: string }) => {
+export const resend_verification_email = async (payload: {
+  userId: string;
+}) => {
   try {
-    const response = await apiInstance.post("/email/otp", payload);
+    const response = await apiInstance.post("/resend/email/link", payload);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const verify_email = async (payload: {
+  userId: string;
+  token: string;
+}) => {
+  try {
+    const response = await apiInstance.post(
+      `/verify/email/${payload.userId}/${payload.token}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// TODO: Forgot Password
+export const reset_password = async (payload: { email: string }) => {
+  try {
+    const response = await apiInstance.post(`/reset/password`, payload);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const set_new_password = async (payload: {
+  token: string;
+  passwordDetails: { password: string; confirmPassword: string };
+}) => {
+  try {
+    const response = await apiInstance.post(
+      `/password-reset/change-password/${payload.token}`,
+      payload.passwordDetails
+    );
     return response.data;
   } catch (error) {
     console.log(error);

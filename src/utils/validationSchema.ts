@@ -37,7 +37,7 @@ export const signup_Schema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords does not match"),
 });
 
-export const reset_password_schema = Yup.object().shape({
+export const set_new_password_schema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     // check minimum characters
@@ -51,4 +51,10 @@ export const reset_password_schema = Yup.object().shape({
     // use oneOf to match one of the values inside the array.
     // use "ref" to get the value of password.
     .oneOf([Yup.ref("password")], "Passwords does not match"),
+});
+
+export const reset_password_schema = Yup.object().shape({
+  email: Yup.string()
+    .email("Enter a valid email")
+    .required("Email is required"),
 });

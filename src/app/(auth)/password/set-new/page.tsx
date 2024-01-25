@@ -1,13 +1,17 @@
 "use client";
 
-import { login_user } from "@/services";
+import { login_user, set_new_password } from "@/services";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useFormik } from "formik";
-import { reset_password_schema, reset_password_types } from "@/utils";
-import { useRouter } from "next/navigation";
+import {
+  reset_password_schema,
+  reset_password_types,
+  set_new_password_schema,
+} from "@/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth, useUser } from "@/context";
 import toast from "react-hot-toast";
 import { MdButton } from "@/components";
@@ -19,13 +23,17 @@ const SetNewPassword = () => {
   const { intendedUrl, clearIntended } = useAuth()!;
   const { set_user } = useUser()!;
 
+  const searchParams = useSearchParams();
+
   const [reset_password_body, setResetPasswordBody] = React.useState({
     password: "",
     confirmPassword: "",
   });
 
+  const token = searchParams.get("token");
+
   const resetPasswordQuery = useMutation({
-    mutationFn: login_user,
+    mutationFn: set_new_password,
     onError(error: any, variables, context) {
       // Throw toast notification
       toast.error(error?.response?.data);
@@ -47,8 +55,15 @@ const SetNewPassword = () => {
 
   const resetPasswordRequest = useFormik({
     initialValues: reset_password_body,
-    validationSchema: reset_password_schema,
-    onSubmit: (values: reset_password_types) => {},
+    validationSchema: set_new_password_schema,
+    onSubmit: (values: reset_password_types) => {
+      if (token) {
+        resetPasswordQuery.mutateAsync({
+          token: token,
+          passwordDetails: values,
+        });
+      }
+    },
   });
 
   return (

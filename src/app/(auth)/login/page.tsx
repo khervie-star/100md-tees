@@ -26,8 +26,15 @@ const Login = () => {
   const loginQuery = useMutation({
     mutationFn: login_user,
     onError(error: any, variables, context) {
-      // Throw toast notification
-      toast.error(error?.response?.data);
+      if (error?.response.status == "401") {
+        // Throw toast notification
+        toast(
+          "Your account is not verified. Please check your email to verify your email and continue."
+        );
+        router.push("/check-email");
+      } else {
+        toast.error(error?.response?.data);
+      }
     },
     onSuccess(data, variables, context) {
       // Set isAuthenticated to true and set userDetails to global state

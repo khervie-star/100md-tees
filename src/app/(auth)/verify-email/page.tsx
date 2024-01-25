@@ -1,28 +1,64 @@
 "use client";
 
 import { MdButton } from "@/components";
-import { verify_email } from "@/services";
+import { useAuth, useUser } from "@/context";
+import { resend_verification_email, verify_email } from "@/services";
 import { Link, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 import { FaArrowLeftLong, FaCheck, FaXmark } from "react-icons/fa6";
 
 const VerifyEmail = ({ params }: { params: { emailToken: string } }) => {
-  const { emailToken } = params;
+  const router = useRouter();
+  const { intendedUrl, clearIntended } = useAuth()!;
+  const { set_user } = useUser()!;
+  const searchParams = useSearchParams();
+
+  const userId = searchParams.get("id");
+  const token = searchParams.get("token");
 
   const verifyEmailQuery = useMutation({
     mutationFn: verify_email,
     onError(error, variables, context) {},
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      set_user(data);
+
+      // Redirect to the intended URL or a default one
+      router.push(intendedUrl || "/");
+
+      // Clear the intended URL after redirecting
+      clearIntended();
+    },
   });
 
-  React.useEffect(() => {
-    if (emailToken) {
-      verifyEmailQuery.mutateAsync({
-        otp: emailToken,
+  const resendVerificationEmailQuery = useMutation({
+    mutationFn: resend_verification_email,
+    onError(error, variables, context) {
+      toast.error("Failed to resend verification email. Please try again.");
+    },
+    onSuccess(data, variables, context) {
+      router.push("/check-email");
+    },
+  });
+
+  const resendVerificationEmail = () => {
+    if (userId) {
+      resendVerificationEmailQuery.mutate({
+        userId: userId,
       });
     }
-  }, [emailToken]);
+  };
+
+  React.useEffect(() => {
+    if (userId && token) {
+      verifyEmailQuery.mutateAsync({
+        userId: userId,
+        token: token,
+      });
+    }
+  }, [userId, token]);
 
   console.log(verifyEmailQuery.status);
 
@@ -61,7 +97,10 @@ const VerifyEmail = ({ params }: { params: { emailToken: string } }) => {
             </div>
           </div>
           <div>
-            <MdButton isLoading={false} extraClass="w-full">
+            <MdButton
+              isLoading={resendVerificationEmailQuery.isPending}
+              extraClass="w-full"
+              onClick={resendVerificationEmail}>
               Resend verification mail
             </MdButton>
           </div>
