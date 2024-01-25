@@ -256,7 +256,18 @@ export const MainNav = () => {
                   Company
                 </a>
               </div>
-
+              <div className="py-6 flex flex-col gap-4">
+                <Link
+                  href="/login"
+                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
+                  Sign up
+                </Link>
+              </div>
               <div className="">
                 {isAuthenticated ? (
                   <a
@@ -266,15 +277,15 @@ export const MainNav = () => {
                     My Account
                   </a>
                 ) : (
-                  <div className="flex gap-4 items-center">
+                  <div className="py-6 flex flex-col gap-4">
                     <Link
                       href="/login"
-                      className="text-sm font-semibold leading-6 text-green flex items-center gap-3">
-                      Sign in
+                      className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
+                      Log in
                     </Link>
                     <Link
                       href="/register"
-                      className="text-sm font-semibold leading-6 text-white bg-green border border-solid border-green rounded-full px-7 py-2 flex items-center gap-3">
+                      className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
                       Sign up
                     </Link>
                   </div>

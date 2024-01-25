@@ -6,7 +6,7 @@ export const Banner = () => {
   return (
     <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-green px-6 py-2.5 sm:px-3.5 font-outfit">
       <div className="w-full container mx-auto lg:px-[100px]  flex justify-between text-white flex-wrap items-center gap-x-4 gap-y-2 text-xs lg:text-sm">
-        <p className="leading-6">
+        <p className="leading-6 hidden lg:block">
           Custom T-shirts & Promotional Products, Fast & Free Shipping, and
           All-Inclusive Pricing
         </p>

@@ -7,7 +7,7 @@ import { login_types, signup_body_types } from "@/utils";
 export const login_user = async (payload: login_types) => {
   try {
     const response = await apiInstance.post("/login", payload);
-    localStorage.addItem("access_token", response.data.userToken);
+    localStorage.setItem("access_token", response.data.userToken);
     // localStorage.removeItem("refresh_token");
     // cookies().set({
     //   name: "access_token",
