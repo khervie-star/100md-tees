@@ -70,7 +70,7 @@ export const MainNav = () => {
   return (
     <header className="bg-white border-b border-solid border-green">
       <nav
-        className="container mx-auto flex w-full items-center justify-between p-6 lg:px-[100px]"
+        className="container mx-auto flex w-full items-center justify-between p-6 lg:px-[100px] font-outfit"
         aria-label="Global">
         <div className="flex items-center lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -200,7 +200,7 @@ export const MainNav = () => {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">100MD Tees</span>
-              <Image className="h-8 w-auto" src={logo} alt="" />
+              <Image className="h-6 w-auto" src={logo} alt="" />
             </a>
             <button
               type="button"
@@ -256,17 +256,29 @@ export const MainNav = () => {
                   Company
                 </a>
               </div>
-              <div className="py-6 flex flex-col gap-4">
-                <Link
-                  href="/login"
-                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
-                  Sign up
-                </Link>
+
+              <div className="">
+                {isAuthenticated ? (
+                  <a
+                    href="/profile/account"
+                    className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-3">
+                    <FaRegUser className="w-5 h-5" />
+                    My Account
+                  </a>
+                ) : (
+                  <div className="flex gap-4 items-center">
+                    <Link
+                      href="/login"
+                      className="text-sm font-semibold leading-6 text-green flex items-center gap-3">
+                      Sign in
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="text-sm font-semibold leading-6 text-white bg-green border border-solid border-green rounded-full px-7 py-2 flex items-center gap-3">
+                      Sign up
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

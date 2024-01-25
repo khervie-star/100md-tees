@@ -7,6 +7,8 @@ import { login_types, signup_body_types } from "@/utils";
 export const login_user = async (payload: login_types) => {
   try {
     const response = await apiInstance.post("/login", payload);
+    localStorage.addItem("access_token", response.data.userToken);
+    // localStorage.removeItem("refresh_token");
     // cookies().set({
     //   name: "access_token",
     //   value: "TOKEN",
@@ -72,6 +74,8 @@ export const verify_email = async (payload: {
       `/verify/email/${payload.userId}/${payload.token}`,
       payload
     );
+    localStorage.addItem("access_token", response.data.userToken);
+
     return response.data;
   } catch (error) {
     console.log(error);

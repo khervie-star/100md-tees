@@ -24,12 +24,6 @@ const VerifyEmail = ({ params }: { params: { emailToken: string } }) => {
     onError(error, variables, context) {},
     onSuccess(data, variables, context) {
       set_user(data);
-
-      // Redirect to the intended URL or a default one
-      router.push(intendedUrl || "/");
-
-      // Clear the intended URL after redirecting
-      clearIntended();
     },
   });
 
@@ -49,6 +43,11 @@ const VerifyEmail = ({ params }: { params: { emailToken: string } }) => {
         userId: userId,
       });
     }
+  };
+
+  const continueToLogin = () => {
+    router.push(intendedUrl || "/");
+    clearIntended();
   };
 
   React.useEffect(() => {
@@ -142,7 +141,10 @@ const VerifyEmail = ({ params }: { params: { emailToken: string } }) => {
             </div>
           </div>
           <div>
-            <MdButton isLoading={false} extraClass="w-full">
+            <MdButton
+              isLoading={false}
+              extraClass="w-full"
+              onClick={continueToLogin}>
               Continue
             </MdButton>
           </div>
