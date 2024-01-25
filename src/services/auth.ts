@@ -42,8 +42,8 @@ export const logout_user = async (logout_message: string) => {
   document.cookie =
     "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("refresh_token");
+  localStorage.removeItem("access_token");
+  // localStorage.removeItem("refresh_token");
 
   // const router = useRouter();
   // router.push("/login");

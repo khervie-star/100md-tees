@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     console.log(token);
     setIsAuthenticated(!!token);
-  }, []);
+  }, [localStorage]);
 
   console.log(isAuthenticated);
 
@@ -38,9 +38,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIntendedUrl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setIsAuthenticated(false);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ intendedUrl, setIntended, clearIntended, isAuthenticated }}>
+      value={{
+        intendedUrl,
+        setIntended,
+        clearIntended,
+        isAuthenticated,
+        handleLogout,
+      }}>
       {children}
     </AuthContext.Provider>
   );

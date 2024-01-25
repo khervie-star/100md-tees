@@ -21,6 +21,7 @@ import Link from "next/link";
 import logo from "../../../public/logo.png";
 import { FaRegUser } from "react-icons/fa6";
 import { useAuth } from "@/context";
+import { HiOutlineLogout } from "react-icons/hi";
 
 const products = [
   {
@@ -65,7 +66,7 @@ function classNames(...classes: string[]) {
 
 export const MainNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth()!;
+  const { isAuthenticated, handleLogout } = useAuth()!;
 
   return (
     <header className="bg-white border-b border-solid border-green">
@@ -256,26 +257,23 @@ export const MainNav = () => {
                   Company
                 </a>
               </div>
-              <div className="py-6 flex flex-col gap-4">
-                <Link
-                  href="/login"
-                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
-                  Sign up
-                </Link>
-              </div>
+
               <div className="">
                 {isAuthenticated ? (
-                  <a
-                    href="/profile/account"
-                    className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-3">
-                    <FaRegUser className="w-5 h-5" />
-                    My Account
-                  </a>
+                  <div className="py-6 flex flex-col gap-4">
+                    <Link
+                      href="/profile/account"
+                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50 flex items-center gap-3">
+                      <FaRegUser className="w-5 h-5" />
+                      My Account
+                    </Link>
+                    <div
+                      onClick={handleLogout}
+                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-danger text-white hover:bg-danger/80 flex items-center gap-3">
+                      <HiOutlineLogout className="w-5 h-5" />
+                      Logout
+                    </div>
+                  </div>
                 ) : (
                   <div className="py-6 flex flex-col gap-4">
                     <Link
