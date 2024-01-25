@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { MdButton } from "@/components";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import key_icon from "../../../../../public/icons/key.svg";
-import mail_icon from "../../../../public/icons/mail.svg";
+import mail_icon from "../../../../../public/icons/mail.svg";
 
 const ForgotPassword = () => {
   const [resetStatus, setResetStatus] = React.useState(false);
