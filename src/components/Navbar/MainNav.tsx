@@ -76,7 +76,11 @@ export const MainNav = () => {
         <div className="flex items-center lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">100MD Tees</span>
-            <Image className="h-6 lg:h-[40px] w-full" src={logo} alt="" />
+            <Image
+              className="h-6 w-auto lg:h-[40px] lg:w-full"
+              src={logo}
+              alt=""
+            />
           </Link>
 
           <Popover.Group className="hidden lg:flex lg:gap-x-12 mx-10">
@@ -170,7 +174,7 @@ export const MainNav = () => {
         <div className="hidden lg:flex lg:justify-end">
           {isAuthenticated ? (
             <a
-              href="/profile/account"
+              href="/account"
               className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-3">
               <FaRegUser className="w-5 h-5" />
               My Account
@@ -262,14 +266,14 @@ export const MainNav = () => {
                 {isAuthenticated ? (
                   <div className="py-6 flex flex-col gap-4">
                     <Link
-                      href="/profile/account"
-                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50 flex items-center gap-3">
+                      href="/account"
+                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50 flex justify-center items-center gap-3">
                       <FaRegUser className="w-5 h-5" />
                       My Account
                     </Link>
                     <div
                       onClick={handleLogout}
-                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-danger text-white hover:bg-danger/80 flex items-center gap-3">
+                      className="w-full text-center -mx-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-danger text-white hover:bg-danger/80 flex justify-center items-center gap-3">
                       <HiOutlineLogout className="w-5 h-5" />
                       Logout
                     </div>
