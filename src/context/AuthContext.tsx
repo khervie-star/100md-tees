@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { getCookie, deleteCookie } from "cookies-next";
 
 const AuthContext = createContext<any>({});
 
@@ -16,17 +17,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [intendedUrl, setIntendedUrl] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const token = getCookie("access_token");
+
   useEffect(() => {
     // TODO: On component render, get access token from cookie, if it exists,
-    // const token = document.cookie
-    //   .split("; ")
-    //   .find((c) => c.startsWith("access_token="))
-    //   ?.split("=")[1];
-    const token = localStorage.getItem("access_token");
 
     console.log(token);
     setIsAuthenticated(!!token);
-  }, [localStorage]);
+  }, [token]);
 
   console.log(isAuthenticated);
 
@@ -39,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
+    deleteCookie("access_token");
     setIsAuthenticated(false);
   };
 

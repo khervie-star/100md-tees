@@ -3,21 +3,20 @@ import { apiInstance } from ".";
 import toast from "react-hot-toast";
 import { login_types, signup_body_types } from "@/utils";
 // import { cookies } from "next/headers";
+import { setCookie } from "cookies-next";
 
 export const login_user = async (payload: login_types) => {
   try {
     const response = await apiInstance.post("/login", payload);
     localStorage.setItem("access_token", response.data.userToken);
-    // localStorage.removeItem("refresh_token");
-    // cookies().set({
-    //   name: "access_token",
-    //   value: "TOKEN",
-    //   maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds
-    //   path: "/",
-    //   // httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production", // Set to true in production
-    //   sameSite: "strict", // Adjust based on your needs
-    // });
+    setCookie("access_token", response.data.userToken, {
+      maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds
+      path: "/",
+      // httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Set to true in production
+      sameSite: "strict", // Adjust based on your needs
+    });
+
     console.log(response);
     return response.data;
   } catch (error) {
@@ -74,6 +73,13 @@ export const verify_email = async (payload: {
       `/verify/email/${payload.userId}/${payload.token}`,
       payload
     );
+    setCookie("access_token", response.data.userToken, {
+      maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds
+      path: "/",
+      // httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Set to true in production
+      sameSite: "strict", // Adjust based on your needs
+    });
     localStorage.addItem("access_token", response.data.userToken);
 
     return response.data;
