@@ -105,7 +105,7 @@ export default function UserAccountLayout({
                   href={"/account"}
                   className={`${
                     pathname == "/account" &&
-                    "border-l-2 border-solid border-[#fd384f] bg-default-100/80"
+                    "border-l-2 border-solid border-red bg-default-100/80"
                   }`}
                   startContent={<FaUser className={iconClasses} />}>
                   Overview{" "}
@@ -133,12 +133,20 @@ export default function UserAccountLayout({
                   key="new"
                   href="/account/address"
                   showDivider
+                  className={`${
+                    pathname == "/account/address" &&
+                    "border-l-2 border-solid border-red bg-default-100/80"
+                  }`}
                   startContent={<FaAddressBook className={iconClasses} />}>
                   Address
                 </ListboxItem>
                 <ListboxItem
                   key="new"
                   href="/account/settings"
+                  className={`${
+                    pathname == "/account/settings" &&
+                    "border-l-2 border-solid border-red bg-default-100/80"
+                  }`}
                   startContent={<FaGear className={iconClasses} />}>
                   Settings
                 </ListboxItem>

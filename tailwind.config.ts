@@ -22,6 +22,7 @@ const config: Config = {
         black: "#171923",
         grey: "#718096",
         slate: "#A0AEC0",
+        red: "#fd384f",
       },
       fontFamily: {
         inter: ["var(--font-inter)"],
