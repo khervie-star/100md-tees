@@ -43,10 +43,10 @@ const SetNewPassword = () => {
       set_user(data);
 
       // Throw toast notification
-      toast.success("Logged In!");
+      toast.success("Password reset successfully!");
 
       // Redirect to the intended URL or a default one
-      router.push(intendedUrl || "/");
+      router.push("/login");
 
       // Clear the intended URL after redirecting
       clearIntended();
@@ -116,12 +116,12 @@ const SetNewPassword = () => {
                 name="confirmPassword"
                 className="w-full px-4 py-[10px] rounded-[8px] bg-transparent border border-solid border-[#D0D5DD] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] placeholder:text-grey placeholder:text-base text-black mb-[24px] focus:ring-0 focus:outline-none focus:border-2px focus:border-green/80 transition-all duration-300"
                 onChange={resetPasswordRequest.handleChange}
-                value={resetPasswordRequest.values.password}
+                value={resetPasswordRequest.values.confirmPassword}
               />
-              {resetPasswordRequest.errors.password &&
-                resetPasswordRequest.touched.password && (
+              {resetPasswordRequest.errors.confirmPassword &&
+                resetPasswordRequest.touched.confirmPassword && (
                   <div className="text-red-700 text-[14px] font-medium mt-[2px]">
-                    {resetPasswordRequest.errors.password}
+                    {resetPasswordRequest.errors.confirmPassword}
                   </div>
                 )}
             </div>

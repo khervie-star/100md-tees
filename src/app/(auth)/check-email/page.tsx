@@ -6,8 +6,29 @@ import React from "react";
 import { MdButton } from "@/components";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import mail_icon from "../../../../public/icons/mail.svg";
+import { resend_verification_email } from "@/services";
+import { useMutation } from "@tanstack/react-query";
+import router from "next/router";
+import toast from "react-hot-toast";
 
 const CheckEmail = () => {
+  const resendVerificationEmailQuery = useMutation({
+    mutationFn: resend_verification_email,
+    onError(error, variables, context) {
+      toast.error("Failed to resend verification email. Please try again.");
+    },
+    onSuccess(data, variables, context) {
+      router.push("/check-email");
+    },
+  });
+
+  const resendVerificationEmail = () => {
+    // if (userId) {
+    resendVerificationEmailQuery.mutate({
+      userId: "",
+    });
+    // }
+  };
   return (
     <>
       <div className="w-full h-[70vh] flex justify-center items-center text-center">
@@ -41,9 +62,11 @@ const CheckEmail = () => {
           <div>
             <p className="font-normal text-grey text-[14px] lg:text-[18px] text-center">
               Didn&apos;t receive the email?{" "}
-              <Link href="/register" className="font-medium text-green">
+              <div
+                className="font-medium text-green"
+                onClick={resendVerificationEmail}>
                 Click to resend
-              </Link>
+              </div>
             </p>
           </div>
           <div>

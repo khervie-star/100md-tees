@@ -25,6 +25,26 @@ export const login_user = async (payload: login_types) => {
   }
 };
 
+export const login_user_with_google = async (payload: { userId: string }) => {
+  try {
+    const response = await apiInstance.post("/google/login", payload);
+    localStorage.setItem("access_token", response.data.userToken);
+    setCookie("access_token", response.data.userToken, {
+      maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds
+      path: "/",
+      // httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Set to true in production
+      sameSite: "strict", // Adjust based on your needs
+    });
+
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const register_user = async (payload: signup_body_types) => {
   try {
     const response = await apiInstance.post("/register", payload);

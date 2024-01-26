@@ -1,6 +1,6 @@
 "use client";
 
-import { login_user } from "@/services";
+import { login_user, login_user_with_google } from "@/services";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import { useAuth, useUser } from "@/context";
 import toast from "react-hot-toast";
 import { MdButton } from "@/components";
 import { Checkbox } from "@nextui-org/react";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const router = useRouter();
@@ -51,11 +52,56 @@ const Login = () => {
     },
   });
 
+  const googleLoginQuery = useMutation({
+    mutationFn: login_user_with_google,
+    onError(error: any, variables, context) {
+      if (error?.response.status == "401") {
+        // Throw toast notification
+        toast(
+          "Your account is not verified. Please check your email to verify your email and continue."
+        );
+        router.push("/check-email");
+      } else {
+        toast.error(error?.response?.data);
+      }
+    },
+    onSuccess(data, variables, context) {
+      // Set isAuthenticated to true and set userDetails to global state
+      set_user(data);
+
+      // Throw toast notification
+      toast.success("Logged In!");
+
+      // Redirect to the intended URL or a default one
+      router.push(intendedUrl || "/");
+
+      // Clear the intended URL after redirecting
+      clearIntended();
+    },
+  });
+
   const login_request = useFormik({
     initialValues: login_body,
     validationSchema: login_schema,
     onSubmit: (values: login_types) => {
       loginQuery.mutate(values);
+    },
+  });
+
+  // TODO: Google Login
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      console.log(codeResponse);
+      await googleLoginQuery.mutateAsync({
+        userId: codeResponse.code,
+      });
+
+      // console.log(tokens);
+    },
+    onError: (errorResponse) => {
+      toast("Something went wrong, please try again.");
+      console.log(errorResponse);
     },
   });
 
@@ -123,7 +169,7 @@ const Login = () => {
             <MdButton
               extraClass="w-full"
               onClick={login_request.handleSubmit}
-              isLoading={loginQuery.isPending}>
+              isLoading={loginQuery.isPending || googleLoginQuery.isPending}>
               Sign in
             </MdButton>
           </div>
@@ -135,7 +181,9 @@ const Login = () => {
             <div className="bg-slate h-[1px] w-full flex-1" />
           </div>
           <div className="w-full flex flex-col gap-8">
-            <button className="relative w-full flex bg-transparent justify-center items-center border border-solid border-[#CBD5E0] rounded-[30px] p-3 lg:p-4 text-[#67728A] text-[18px] font-medium leading-[28px]">
+            <button
+              onClick={googleLogin}
+              className="relative w-full flex bg-transparent justify-center items-center border border-solid border-[#CBD5E0] rounded-[30px] p-3 lg:p-4 text-[#67728A] text-[18px] font-medium leading-[28px]">
               <div className="icon absolute left-5">
                 <Image src="/icons/google.svg" alt="" width={25} height={25} />
               </div>
