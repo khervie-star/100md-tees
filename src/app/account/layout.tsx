@@ -8,6 +8,11 @@ import {
   Listbox,
   ListboxItem,
   ListboxSection,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { FaHome } from "react-icons/fa";
@@ -92,8 +97,8 @@ export default function UserAccountLayout({
               <BreadcrumbItem href="/account/">Account</BreadcrumbItem>
             </Breadcrumbs>
           </div>
-          <div className="flex items-start lg:gap-[40px]">
-            <div>
+          <div className="flex flex-col lg:flex-row items-start gap-5 lg:gap-[40px]">
+            <div className="hidden lg:block">
               <Listbox
                 className="p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 w-[300px] max-w-[300px] overflow-visible shadow-small rounded-none border-none font-outfit"
                 itemClasses={{
@@ -114,23 +119,35 @@ export default function UserAccountLayout({
                 <ListboxItem
                   key="new"
                   href="/account/designs"
+                  className={`${
+                    pathname == "/account/designs" &&
+                    "border-l-2 border-solid border-red bg-default-100/80"
+                  }`}
                   startContent={<MdDesignServices className={iconClasses} />}>
                   Designs
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
+                  key="orders"
                   href="/account/orders"
+                  className={`${
+                    pathname == "/account/orders" &&
+                    "border-l-2 border-solid border-red bg-default-100/80"
+                  }`}
                   startContent={<FaBagShopping className={iconClasses} />}>
                   Orders
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
+                  key="payments"
                   href="/account/payments"
+                  className={`${
+                    pathname == "/account/payments" &&
+                    "border-l-2 border-solid border-red bg-default-100/80"
+                  }`}
                   startContent={<LiaCcApplePay className={iconClasses} />}>
                   Payments
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
+                  key="address"
                   href="/account/address"
                   showDivider
                   className={`${
@@ -141,7 +158,7 @@ export default function UserAccountLayout({
                   Address
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
+                  key="settings"
                   href="/account/settings"
                   className={`${
                     pathname == "/account/settings" &&
@@ -151,26 +168,46 @@ export default function UserAccountLayout({
                   Settings
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
-                  href="/account/refunds"
+                  key="refunds"
+                  href="#"
                   startContent={<RiRefund2Fill className={iconClasses} />}>
                   Refund and Return
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
-                  href="/account/feedback"
+                  key="feedback"
+                  href="#"
                   startContent={<MdFeedback className={iconClasses} />}>
                   Feedback
                 </ListboxItem>
                 <ListboxItem
-                  key="new"
-                  href="/account/invite"
+                  key="invite"
+                  href="#"
                   startContent={<FaEnvelopeOpen className={iconClasses} />}>
                   Invite friends
                 </ListboxItem>
               </Listbox>
             </div>
-            <div className="w-[calc(100%-300px)]">{children}</div>
+            <div className="block lg:hidden">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button variant="shadow" fullWidth>
+                    Open Menu
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Link Actions">
+                  <DropdownItem key="account" href="/account">
+                    Account
+                  </DropdownItem>
+                  <DropdownItem key="address" href="/account/address">
+                    Address
+                  </DropdownItem>
+                  <DropdownItem key="settings" href="/account/settings">
+                    Settings
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+            <div className="w-full lg:w-[calc(100%-300px)]">{children}</div>
           </div>
         </div>
       </main>

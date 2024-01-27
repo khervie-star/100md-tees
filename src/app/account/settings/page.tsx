@@ -3,7 +3,7 @@ import React from "react";
 import { Tabs, Tab } from "@nextui-org/react";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { GoBellFill } from "react-icons/go";
-import { Profile } from "./_components";
+import { Notifications, Profile, Security } from "./_components";
 
 const Settings = () => {
   const [selected, setSelected] = React.useState("photos");
@@ -40,7 +40,7 @@ const Settings = () => {
               }
             />
             <Tab
-              key="music"
+              key="security"
               title={
                 <div className="flex items-center space-x-2">
                   <FaLock />
@@ -49,7 +49,7 @@ const Settings = () => {
               }
             />
             <Tab
-              key="videos"
+              key="notifications"
               title={
                 <div className="flex items-center space-x-2">
                   <GoBellFill />
@@ -59,6 +59,10 @@ const Settings = () => {
             />
           </Tabs>
           <div className="px-6">{selected == "profile" && <Profile />}</div>
+          <div className="px-6">{selected == "security" && <Security />}</div>
+          <div className="px-6">
+            {selected == "notifications" && <Notifications />}
+          </div>
         </div>
       </div>
     </div>
