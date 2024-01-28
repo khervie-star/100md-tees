@@ -200,7 +200,7 @@ export default function UserAccountLayout({
             <div className="block lg:hidden">
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="bordered" className="capitalize">
+                  <Button variant="bordered" className="capitalize font-outfit">
                     Open Menu
                   </Button>
                 </DropdownTrigger>
@@ -213,11 +213,32 @@ export default function UserAccountLayout({
                   <DropdownItem key="account" href="/account">
                     Account
                   </DropdownItem>
-                  <DropdownItem key="address" href="/account/address">
+                  <DropdownItem key="designs" href="/account/designs">
+                    Designs
+                  </DropdownItem>
+                  <DropdownItem key="orders" href="/account/orders">
+                    Orders
+                  </DropdownItem>
+                  <DropdownItem key="payments" href="/account/payments">
+                    Payments
+                  </DropdownItem>
+                  <DropdownItem
+                    key="address"
+                    href="/account/address"
+                    showDivider>
                     Address
                   </DropdownItem>
                   <DropdownItem key="settings" href="/account/settings">
                     Settings
+                  </DropdownItem>
+                  <DropdownItem key="refunds" href="#">
+                    Refund and Return
+                  </DropdownItem>
+                  <DropdownItem key="feedback" href="#">
+                    Feedback
+                  </DropdownItem>
+                  <DropdownItem key="invite" href="#">
+                    Invite Friends
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
