@@ -10,12 +10,12 @@ const Settings = () => {
 
   return (
     <div>
-      <div className="w-full bg-white shadow-lg p-4 mb-8">
+      <div className="w-full bg-white shadow-md p-4 mb-8">
         <h2 className="font-outfit text-[32px] font-bold text-black">
           Settings
         </h2>
       </div>
-      <div className="w-full bg-white shadow-lg p-4">
+      <div className="w-full bg-white shadow-md p-4">
         <div className="flex w-full flex-col gap-4">
           <Tabs
             aria-label="Options"
@@ -25,7 +25,7 @@ const Settings = () => {
             onSelectionChange={(key: any) => setSelected(key)}
             classNames={{
               tabList:
-                "gap-10 w-full relative rounded-none p-0 border-b border-divider",
+                "gap-10 w-full relative rounded-none p-0 border-b border-divider font-outfit",
               cursor: "w-full bg-red",
               tab: "max-w-fit px-0 h-12",
               tabContent: "group-data-[selected=true]:text-red",
@@ -58,9 +58,11 @@ const Settings = () => {
               }
             />
           </Tabs>
-          <div className="px-6">{selected == "profile" && <Profile />}</div>
-          <div className="px-6">{selected == "security" && <Security />}</div>
-          <div className="px-6">
+          <div className="lg:px-6">{selected == "profile" && <Profile />}</div>
+          <div className="lg:px-6">
+            {selected == "security" && <Security />}
+          </div>
+          <div className="lg:px-6">
             {selected == "notifications" && <Notifications />}
           </div>
         </div>

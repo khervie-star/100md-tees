@@ -91,7 +91,7 @@ export default function UserAccountLayout({
       <MainNav />
       <main className="p-5 lg:p-8 bg-[#f5f5f5] min-h-screen h-full">
         <div className="container mx-auto lg:px-[100px] lg:py-[50px]">
-          <div className="mb-10">
+          <div className="mb-10 hidden lg:block">
             <Breadcrumbs>
               <BreadcrumbItem href="/">Home</BreadcrumbItem>
               <BreadcrumbItem href="/account/">Account</BreadcrumbItem>
@@ -187,7 +187,7 @@ export default function UserAccountLayout({
                 </ListboxItem>
               </Listbox>
             </div>
-            <div className="block lg:hidden">
+            <div className="block lg:hidden w-full">
               <Dropdown>
                 <DropdownTrigger>
                   <Button variant="shadow" fullWidth>

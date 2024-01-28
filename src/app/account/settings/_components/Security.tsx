@@ -16,12 +16,12 @@ export const Security = () => {
       [name]: !isVisible[name],
     });
   return (
-    <div className="py-10">
+    <div className="pb-10">
       <h2 className="text-green text-[21px] font-semibold font-outfit mb-7">
         Change Password
       </h2>
       <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-[28px]">
-        <form className="form flex-1 flex flex-col gap-6 lg:pr-10">
+        <form className="form w-full flex-1 flex flex-col gap-6 lg:pr-10">
           <Input
             label="Password"
             variant="flat"
@@ -43,7 +43,7 @@ export const Security = () => {
           />
           <Input
             label="Confirm Password"
-            variant="faded"
+            variant="flat"
             // placeholder="Enter your password"
             endContent={
               <button

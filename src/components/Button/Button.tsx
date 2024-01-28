@@ -18,7 +18,7 @@ export const MdButton = ({
     <Button
       color="secondary"
       isLoading={isLoading}
-      className={`${extraClass} h-full flex justify-center items-center py-3 bg-green rounded-[30px] lg:rounded-[12px] text-white100 text-[20px] leading-[28px] font-semibold`}
+      className={`${extraClass} h-full flex justify-center items-center px-6 py-3 bg-green rounded-[30px] lg:rounded-[12px] text-white100 text-[16px] leading-[120%] lg:text-[20px] lg:leading-[28px] font-semibold`}
       onClick={onClick}>
       {children}
     </Button>
