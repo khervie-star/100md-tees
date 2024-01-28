@@ -35,7 +35,7 @@ export default function UserAccountLayout({
 }) {
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = React.useState<any>(
-    new Set(["text"])
+    new Set(["account"])
   );
 
   const selectedValue = React.useMemo(
@@ -197,20 +197,16 @@ export default function UserAccountLayout({
                 </ListboxItem>
               </Listbox>
             </div>
-            <div className="block lg:hidden w-full">
+            <div className="block lg:hidden">
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="bordered" fullWidth className="capitalize">
-                    {selectedValue}
+                  <Button variant="bordered" className="capitalize">
+                    Open Menu
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label="Link Actions"
                   variant="flat"
-                  disallowEmptySelection
-                  selectionMode="single"
-                  selectedKeys={selectedKeys}
-                  onSelectionChange={setSelectedKeys}
                   classNames={{
                     list: "font-outfit",
                   }}>

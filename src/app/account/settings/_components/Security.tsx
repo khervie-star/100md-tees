@@ -1,5 +1,5 @@
 import { MdButton } from "@/components";
-import { Input } from "@nextui-org/react";
+import { Divider, Input } from "@nextui-org/react";
 import React from "react";
 import { FaSave } from "react-icons/fa";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
@@ -20,8 +20,8 @@ export const Security = () => {
       <h2 className="text-green text-[18px] lg:text-[21px] font-semibold font-outfit mb-7">
         Change Password
       </h2>
-      <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-[28px]">
-        <form className="form w-full flex-1 flex flex-col gap-6 lg:pr-10">
+      <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-[28px] mb-7">
+        <form className="form w-full lg:w-1/2 flex-1 flex flex-col gap-6 lg:pr-10">
           <Input
             label="Password"
             variant="flat"
@@ -61,7 +61,7 @@ export const Security = () => {
             className="w-full"
           />
         </form>
-        <div className="flex-1"></div>
+        {/* <div className="flex-1"></div> */}
       </div>
 
       <div className="w-full flex justify-end">
@@ -69,6 +69,12 @@ export const Security = () => {
           <FaSave />
           Save
         </MdButton>
+      </div>
+      <Divider className="my-5" />
+      <div>
+        <h2 className="text-green text-[18px] lg:text-[21px] font-semibold font-outfit mb-7">
+          Security Settings
+        </h2>
       </div>
     </div>
   );

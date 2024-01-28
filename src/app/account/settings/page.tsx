@@ -10,13 +10,13 @@ const Settings = () => {
 
   return (
     <div>
-      <div className="w-full bg-white shadow-md p-4 mb-8">
+      <div className="w-full bg-white shadow p-4 mb-8">
         <h2 className="font-outfit text-[32px] font-bold text-black">
           Settings
         </h2>
       </div>
       <div className="w-full bg-white shadow-md p-4">
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-7">
           <Tabs
             aria-label="Options"
             color="primary"
@@ -58,11 +58,9 @@ const Settings = () => {
               }
             />
           </Tabs>
-          <div className="lg:px-6">{selected == "profile" && <Profile />}</div>
           <div className="lg:px-6">
+            {selected == "profile" && <Profile />}
             {selected == "security" && <Security />}
-          </div>
-          <div className="lg:px-6">
             {selected == "notifications" && <Notifications />}
           </div>
         </div>

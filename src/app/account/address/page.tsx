@@ -21,7 +21,7 @@ const Address = () => {
   return (
     <div>
       <div className="w-full bg-white shadow-lg p-4 mb-8 flex items-center justify-between">
-        <h2 className="font-outfit text-[32px] font-bold text-black">
+        <h2 className="font-outfit text-[24px] lg:text-[32px] font-bold text-black">
           Address
         </h2>
         <Button
@@ -37,7 +37,7 @@ const Address = () => {
           <Card
             className="w-full"
             classNames={{
-              base: "border border-solid border-success",
+              base: "border border-solid border-green font-outfit",
             }}>
             <CardHeader className="justify-between">
               <div className="flex gap-5">
