@@ -4,6 +4,9 @@ import React from "react";
 export const Notifications = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
+      <h2 className="text-green text-[18px] lg:text-[21px] font-semibold font-outfit mb-7">
+        Notifications Settings
+      </h2>
       <Switch
         classNames={{
           base: cn(

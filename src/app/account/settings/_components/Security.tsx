@@ -17,7 +17,7 @@ export const Security = () => {
     });
   return (
     <div className="pb-10">
-      <h2 className="text-green text-[21px] font-semibold font-outfit mb-7">
+      <h2 className="text-green text-[18px] lg:text-[21px] font-semibold font-outfit mb-7">
         Change Password
       </h2>
       <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-[28px]">

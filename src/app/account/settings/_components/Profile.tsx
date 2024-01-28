@@ -10,6 +10,9 @@ import { FaPen } from "react-icons/fa6";
 export const Profile = () => {
   return (
     <div className="pb-10">
+      <h2 className="text-green text-[18px] lg:text-[21px] font-semibold font-outfit mb-7">
+        Edit Profile
+      </h2>
       <div className="avatar_wrapper mb-12">
         <div className="w-[100px] h-[100px] rounded-full border-solid border-2 border-green bg-gray-200 relative cursor-pointer">
           <Image

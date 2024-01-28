@@ -15,6 +15,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { FaHome } from "react-icons/fa";
 import {
   FaAddressBook,
@@ -33,6 +34,15 @@ export default function UserAccountLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [selectedKeys, setSelectedKeys] = React.useState<any>(
+    new Set(["text"])
+  );
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
+
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
@@ -190,11 +200,20 @@ export default function UserAccountLayout({
             <div className="block lg:hidden w-full">
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="shadow" fullWidth>
-                    Open Menu
+                  <Button variant="bordered" fullWidth className="capitalize">
+                    {selectedValue}
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Link Actions">
+                <DropdownMenu
+                  aria-label="Link Actions"
+                  variant="flat"
+                  disallowEmptySelection
+                  selectionMode="single"
+                  selectedKeys={selectedKeys}
+                  onSelectionChange={setSelectedKeys}
+                  classNames={{
+                    list: "font-outfit",
+                  }}>
                   <DropdownItem key="account" href="/account">
                     Account
                   </DropdownItem>
