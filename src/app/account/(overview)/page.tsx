@@ -1,4 +1,4 @@
-import { Button, User } from "@nextui-org/react";
+import { Button, User } from "@heroui/react";
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 

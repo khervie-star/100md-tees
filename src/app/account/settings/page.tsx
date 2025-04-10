@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Tabs, Tab } from "@nextui-org/react";
+import { Tabs, Tab } from "@heroui/react";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { GoBellFill } from "react-icons/go";
 import { Notifications, Profile, Security } from "./_components";

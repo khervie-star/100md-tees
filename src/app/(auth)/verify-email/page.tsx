@@ -3,7 +3,7 @@
 import { MdButton } from "@/components";
 import { useAuth, useUser } from "@/context";
 import { resend_verification_email, verify_email } from "@/services";
-import { Link, Spinner } from "@nextui-org/react";
+import { Link, Spinner } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";

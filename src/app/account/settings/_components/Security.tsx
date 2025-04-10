@@ -1,5 +1,5 @@
 import { MdButton } from "@/components";
-import { Divider, Input } from "@nextui-org/react";
+import { Divider, Input } from "@heroui/react";
 import React from "react";
 import { FaSave } from "react-icons/fa";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";

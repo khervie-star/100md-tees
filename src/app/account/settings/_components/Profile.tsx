@@ -1,11 +1,11 @@
 import { MdButton } from "@/components";
 import { country_data } from "@/lib/data";
-import { Avatar, Input, Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
 import { FaSave } from "react-icons/fa";
 import image from "../../../../../public/images/user.jpeg";
 import { FaPen } from "react-icons/fa6";
+import { Input, Select, SelectItem, Avatar } from "@heroui/react";
 
 export const Profile = () => {
   return (

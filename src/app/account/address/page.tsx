@@ -9,7 +9,7 @@ import {
   Avatar,
   Button,
   Chip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { CheckIcon } from "../../../../public/icons";

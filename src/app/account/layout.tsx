@@ -13,7 +13,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { FaHome } from "react-icons/fa";

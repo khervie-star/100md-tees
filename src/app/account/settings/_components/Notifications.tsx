@@ -1,4 +1,4 @@
-import { Switch, cn } from "@nextui-org/react";
+import { cn, Switch } from "@heroui/react";
 import React from "react";
 
 export const Notifications = () => {
