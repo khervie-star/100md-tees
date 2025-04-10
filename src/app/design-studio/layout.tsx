@@ -8,7 +8,7 @@ export default function DesignPageLayout({
 }) {
   return (
     <>
-      <DesignPageNav />
+      {/* <DesignPageNav /> */}
       <main className="w-full h-full lg:w-screen lg:min-h-screen">
         {children}
       </main>

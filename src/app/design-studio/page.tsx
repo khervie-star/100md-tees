@@ -1,16 +1,39 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaUpload, FaFont, FaSave, FaShoppingCart, FaUndo, FaRedo } from "react-icons/fa";
 import { PiTextAaBold } from "react-icons/pi";
 import { MdPalette } from "react-icons/md";
 import { IoLogoDeviantart } from "react-icons/io5";
 import { BsImageFill } from "react-icons/bs";
-import { Button, Input, Select, SelectItem, Slider, Tabs, Tab } from "@heroui/react";
+import { Button, Input, Select, SelectItem, Slider, Tabs, Tab, Divider, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import frontShirt from "../../assets/images/tshirt-front-alt.png";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { FaX, FaXmark } from "react-icons/fa6";
+import { FaList, FaX, FaXmark } from "react-icons/fa6";
 import logo from "../../../public/logo.png";
+import Image from "next/image";
+import Link from "next/link";
+
+import soccer from "@/assets/clip-art/soccer.png"
+import basketball from "@/assets/clip-art/basketball.png"
+import baseball from "@/assets/clip-art/baseball.png"
+import bowling from "@/assets/clip-art/bowling.png"
+
+import lion from "@/assets/clip-art/lion.png"
+import dog from "@/assets/clip-art/dog.png"
+import eagle from "@/assets/clip-art/eagle.png"
+import wolf from "@/assets/clip-art/wolf.png"
+
+import heart from "@/assets/clip-art/heart.png"
+import moon from "@/assets/clip-art/moon.png"
+import fire from "@/assets/clip-art/fire.png"
+import star from "@/assets/clip-art/star.png"
+
+import flowers from "@/assets/clip-art/flower.png"
+import trees from "@/assets/clip-art/trees.png"
+import cave from "@/assets/clip-art/cave.png"
+import birds from "@/assets/clip-art/birds.png"
+import { Gem, Sparkles } from "lucide-react";
 
 // Type definitions
 type Position = {
@@ -39,8 +62,8 @@ type ImageElement = {
   src: string;
   name?: string;
   position: Position;
-  rotation: number;
-  scale: number;
+  rotation: number | number[];
+  scale: number | number[];
 };
 
 type DesignElement = TextElement | ImageElement;
@@ -96,6 +119,10 @@ const DesignStudio = () => {
   const [selectedClipArtCategory, setSelectedClipArtCategory] = React.useState("sports");
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [designs, setDesigns] = useState<Record<string, DesignState>>({});
+  const [currentDesignName, setCurrentDesignName] = useState<string>("");
+  const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false);
+  const [showLoadDialog, setShowLoadDialog] = useState<boolean>(false);
 
   // Mock data for product options
   const products: Product[] = [
@@ -136,30 +163,78 @@ const DesignStudio = () => {
   // Mock clipart for each category
   const clipArtItems: Record<string, ClipArtItem[]> = {
     sports: [
-      { id: "football", name: "Football", src: "https://clipart-library.com/new_gallery/sports-clip-art-14.png" },
-      { id: "basketball", name: "Basketball", src: "https://clipart-library.com/new_gallery/sports-clip-art-13.png" },
-      { id: "baseball", name: "Baseball", src: "https://clipart-library.com/new_gallery/sports-clip-art-51.png" },
-      { id: "rugby", name: "A. Football", src: "https://clipart-library.com/new_gallery/sports-clip-art-11.png" },
+      { id: "football", name: "Football", src: soccer.src },
+      { id: "basketball", name: "Basketball", src: basketball.src },
+      { id: "baseball", name: "Baseball", src: baseball.src },
+      { id: "bowling", name: "Bowling", src: bowling.src },
     ],
     animals: [
-      { id: "lion", name: "Lion", src: "https://clipart-library.com/2023/12-125248_lion-and-cub-clipart-hd-png-download.png" },
-      { id: "eagle", name: "Eagle", src: "https://clipart-library.com/8300/2368/360_F_594750261_CHtOfazngwcICPrCYi4qKUXfl2XNF71b.jpg" },
-      { id: "wolf", name: "Wolf", src: "https://clipart-library.com/8300/2368/wolf-head-silhouette-wolf-face-shape-wolf-clipart-wolf-logo-vector-tribal-tattoo-design-cricut_1001021-13.jpg" },
-      { id: "butterfly", name: "Butterfly", src: "https://clipart-library.com/new_gallery/butterfly-clipart-12.jpg" },
+      { id: "lion", name: "Lion", src: lion.src },
+      { id: "eagle", name: "Eagle", src: eagle.src },
+      { id: "wolf", name: "Wolf", src: wolf.src },
+      { id: "dog", name: "Dog", src: dog.src },
     ],
     symbols: [
-      { id: "star", name: "Star", src: "https://clipart-library.com/data_images/234.png" },
-      { id: "heart", name: "Heart", src: "https://clipart-library.com/new_gallery/love-clipart-3.jpg" },
-      { id: "lightning", name: "Lightning", src: "https://clipart-library.com/8300/1931/lightning-clipart-xl.png" },
-      { id: "fire", name: "Fire", src: "https://clipart-library.com/2023/free-forest-fire-vector-su838.jpg" },
+      { id: "star", name: "Star", src: star.src },
+      { id: "heart", name: "Heart", src: heart.src },
+      { id: "moon", name: "moon", src: moon.src },
+      { id: "fire", name: "Fire", src: fire.src },
     ],
     nature: [
-      { id: "tree", name: "Tree", src: "https://clipart-library.com/data_images/157166.jpg" },
-      { id: "sun", name: "Sun", src: "https://clipart-library.com/data_images/157033.gif" },
-      { id: "tree", name: "Tree", src: "https://clipart-library.com/data_images/157052.png" },
-      { id: "wave", name: "Wave", src: "https://clipart-library.com/2023/big-wave-surfing-big-wave-surfing-illustration-sea-wave-png.jpg" },
+      { id: "tree", name: "Tree", src: trees.src },
+      { id: "cave", name: "Cave", src: cave.src },
+      { id: "bird", name: "Bird chirping", src: birds.src },
+      { id: "flower", name: "Fower", src: flowers.src },
     ],
   };
+
+
+  const saveDesign = (name: string) => {
+    const designToSave: DesignState = {
+      textElements,
+      imageElements,
+      selectedColor,
+      selectedProduct,
+    };
+
+    // Save to local state
+    const updatedDesigns = { ...designs, [name]: designToSave };
+    setDesigns(updatedDesigns);
+    setCurrentDesignName(name);
+
+    // Save to localStorage
+    localStorage.setItem('savedDesigns', JSON.stringify(updatedDesigns));
+    setShowSaveDialog(false);
+  };
+
+  const loadDesign = (name: string) => {
+    const designToLoad = designs[name];
+    if (designToLoad) {
+      setTextElements(designToLoad.textElements);
+      setImageElements(designToLoad.imageElements);
+      setSelectedColor(designToLoad.selectedColor);
+      setSelectedProduct(designToLoad.selectedProduct);
+      setCurrentDesignName(name);
+      setActiveElement(null);
+
+      // Add current state to history
+      saveToHistory();
+    }
+    setShowLoadDialog(false);
+  };
+
+  // Load saved designs from localStorage on component mount
+  useEffect(() => {
+    const savedDesigns = localStorage.getItem('savedDesigns');
+    if (savedDesigns) {
+      try {
+        const parsedDesigns = JSON.parse(savedDesigns);
+        setDesigns(parsedDesigns);
+      } catch (error) {
+        console.error('Error loading saved designs:', error);
+      }
+    }
+  }, []);
 
   // Function to add new text element
   const addTextElement = () => {
@@ -357,6 +432,67 @@ const DesignStudio = () => {
     }
   };
 
+  const exportDesign = async (quality = 1) => {
+    // Create a canvas element
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas dimensions (higher for better quality)
+    const scale = 2; // 2x resolution for high quality
+    canvas.width = 1200 * scale;
+    canvas.height = 1600 * scale;
+
+    // Draw the product base (white or selected color)
+    ctx.fillStyle = selectedColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw all design elements
+    for (const element of [...textElements, ...imageElements]) {
+      if (element.type === 'text') {
+        // Draw text elements
+        ctx.save();
+        ctx.translate(element.position.x * scale, element.position.y * scale);
+        ctx.rotate((element.rotation * Math.PI) / 180);
+        ctx.scale(element.scale, element.scale);
+
+        ctx.font = `${element.bold ? 'bold ' : ''}${element.size * scale}px ${element.font}`;
+        ctx.fillStyle = element.color;
+        ctx.fillText(element.value, 0, 0);
+        ctx.restore();
+      } else {
+        // Draw image elements
+        const img = document.createElement('img');
+        img.src = element.src;
+
+        await new Promise((resolve) => {
+          img.onload = () => {
+            ctx.save();
+            ctx.translate(element.position.x * scale, element.position.y * scale);
+            ctx.rotate((Number(element.rotation) * Math.PI) / 180);
+            ctx.scale(Number(element.scale), Number(element.scale));
+
+            ctx.drawImage(
+              img,
+              -img.width / 2,
+              -img.height / 2,
+              img.width * scale,
+              img.height * scale
+            );
+            ctx.restore();
+            resolve(true);
+          };
+        });
+      }
+    }
+
+    // Convert to downloadable image
+    const link = document.createElement('a');
+    link.download = 'my-design.png';
+    link.href = canvas.toDataURL('image/png', quality);
+    link.click();
+  };
+
   // Active tab content
   const renderTabContent = () => {
     switch (activeTab) {
@@ -549,7 +685,7 @@ const DesignStudio = () => {
                       const updated = imageElements.map(element =>
                         element.id === activeElementData.id ? { ...element, rotation: value } : element
                       );
-                      // setImageElements(updated);
+                      setImageElements(updated);
                     }}
                     className="max-w-full"
                   />
@@ -567,7 +703,7 @@ const DesignStudio = () => {
                       const updated = imageElements.map(element =>
                         element.id === activeElementData.id ? { ...element, scale: value } : element
                       );
-                      // setImageElements(updated);
+                      setImageElements(updated);
                     }}
                     className="max-w-full h-4"
                   />
@@ -620,353 +756,450 @@ const DesignStudio = () => {
     }
   };
 
-  return (
-    <div className="w-full min-h-screen bg-gray-100">
-      <main className="container mx-auto py-8">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Design toolbar */}
-          <div className="w-full lg:w-1/4 flex flex-col gap-4">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <Tabs
-                aria-label="Design Options"
-                color="primary"
-                variant="solid"
-                fullWidth
-                selectedKey={activeTab}
-                onSelectionChange={(key) => setActiveTab(key as string)}
-                classNames={{
-                  tabList: "gap-0 w-full relative rounded-none p-0 border-b border-divider",
-                  cursor: "w-full rounded-none",
-                  tab: "flex-1 px-0 font-medium text-sm h-12",
-                  tabContent: "group-data-[selected=true]:text-white",
-                }}
+  const SaveDesignDialog = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <h6 className="font-bold text-xl mb-4">Save Design</h6>
+        <Input
+          label="Design Name"
+          placeholder="Enter a name for your design"
+          value={currentDesignName}
+          onChange={(e) => setCurrentDesignName(e.target.value)}
+          fullWidth
+          autoFocus
+        />
+        <div className="flex justify-end space-x-3 mt-6">
+          <Button variant="bordered" onClick={() => setShowSaveDialog(false)}>
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            className="text-white"
+            disabled={!currentDesignName.trim()}
+            onClick={() => saveDesign(currentDesignName.trim())}
+          >
+            Save
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Add this JSX for the load dialog
+  const LoadDesignDialog = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <h6 className="font-bold text-xl mb-4">Load Design</h6>
+        {Object.keys(designs).length > 0 ? (
+          <div className="max-h-64 overflow-y-auto">
+            {Object.keys(designs).map((name) => (
+              <div
+                key={name}
+                className="p-3 border border-gray-200 rounded-md mb-2 cursor-pointer hover:bg-gray-50"
+                onClick={() => loadDesign(name)}
               >
-                <Tab
-                  key="color"
-                  title={
-                    <div className="flex items-center justify-center space-x-1">
-                      <MdPalette />
-                      <span>Color</span>
-                    </div>
-                  }
-                />
-                <Tab
-                  key="upload"
-                  title={
-                    <div className="flex items-center justify-center space-x-1">
-                      <FaUpload />
-                      <span>Upload</span>
-                    </div>
-                  }
-                />
-                <Tab
-                  key="text"
-                  title={
-                    <div className="flex items-center justify-center space-x-1">
-                      <PiTextAaBold />
-                      <span>Text</span>
-                    </div>
-                  }
-                />
-                <Tab
-                  key="art"
-                  title={
-                    <div className="flex items-center justify-center space-x-1">
-                      <IoLogoDeviantart />
-                      <span>Art</span>
-                    </div>
-                  }
-                />
-              </Tabs>
-
-              {renderTabContent()}
-            </div>
-
-            {/* Layers panel */}
-            <div className="bg-white rounded-lg shadow-lg p-5">
-              <div className="flex justify-between items-center mb-4">
-                <h6 className="font-bold text-lg">Design Layers</h6>
-                <div className="flex space-x-2">
-                  <Button isIconOnly size="sm" variant="light" onClick={handleUndo}>
-                    <FaUndo />
-                  </Button>
-                  <Button isIconOnly size="sm" variant="light" onClick={handleRedo}>
-                    <FaRedo />
-                  </Button>
+                <div className="font-medium">{name}</div>
+                <div className="text-xs text-gray-500">
+                  {designs[name].textElements.length} text elements,
+                  {designs[name].imageElements.length} image elements
                 </div>
               </div>
-
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {textElements.map((element) => (
-                  <div
-                    key={element.id}
-                    className={`p-3 border rounded-md cursor-pointer flex justify-between items-center ${activeElement === element.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
-                      }`}
-                    onClick={() => setActiveElement(element.id)}
-                  >
-                    <div className="flex items-center">
-                      <FaFont className="mr-2 text-gray-600" />
-                      <span className="text-sm truncate max-w-40">{element.value}</span>
-                    </div>
-                    <Button
-                      isIconOnly
-                      size="sm"
-                      variant="light"
-                      color="danger"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setTextElements(textElements.filter(t => t.id !== element.id));
-                        if (activeElement === element.id) setActiveElement(null);
-                        saveToHistory();
-                      }}
-                    >
-                      <FaXmark />
-                    </Button>
-                  </div>
-                ))}
-
-                {imageElements.map((element) => (
-                  <div
-                    key={element.id}
-                    className={`p-3 border rounded-md cursor-pointer flex justify-between items-center ${activeElement === element.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
-                      }`}
-                    onClick={() => setActiveElement(element.id)}
-                  >
-                    <div className="flex items-center">
-                      <BsImageFill className="mr-2 text-gray-600" />
-                      <span className="text-sm truncate max-w-40">
-                        {element.type === "clipart" ? element.name : "Image"}
-                      </span>
-                    </div>
-                    <Button
-                      isIconOnly
-                      size="sm"
-                      variant="light"
-                      color="danger"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setImageElements(imageElements.filter(img => img.id !== element.id));
-                        if (activeElement === element.id) setActiveElement(null);
-                        saveToHistory();
-                      }}
-                    >
-                      <FaXmark />
-                    </Button>
-                  </div>
-                ))}
-
-                {textElements.length === 0 && imageElements.length === 0 && (
-                  <p className="text-gray-500 text-sm text-center py-4">
-                    No elements yet. Add text or images to your design.
-                  </p>
-                )}
-              </div>
-            </div>
+            ))}
           </div>
+        ) : (
+          <p className="text-gray-500 py-4 text-center">No saved designs found.</p>
+        )}
+        <div className="flex justify-end mt-6">
+          <Button variant="bordered" onClick={() => setShowLoadDialog(false)}>
+            Close
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 
-          {/* Design preview */}
-          <div className="w-full lg:w-1/2">
-            <div className="bg-white rounded-lg shadow-lg p-5">
-              <div className="flex justify-between items-center mb-4">
-                <h6 className="font-bold text-lg">Design Preview</h6>
-                <div className="flex space-x-2">
-                  <Button variant="bordered" onClick={() => setProductView(productView === "front" ? "back" : "front")}>
-                    {productView === "front" ? "View Back" : "View Front"}
-                  </Button>
-                </div>
+  return (
+    <>
+      <Navbar maxWidth="full" shouldHideOnScroll className="py-4">
+        <NavbarBrand>
+          <Link href="/">
+            <Image src={logo} className="w-[120px] h-auto" alt="100md Tees" />
+          </Link>
+        </NavbarBrand>
+
+        <NavbarContent justify="end" className="font-outfit">
+          <NavbarItem>
+            <Button color="primary" variant="light" startContent={<FaSave />} onClick={() => setShowSaveDialog(true)} className="mr-2">
+              Save Design
+            </Button>
+
+            <Button
+              variant="bordered"
+              size="sm"
+              startContent={<FaList />}
+              onClick={() => setShowLoadDialog(true)}
+            >
+              Load Existing
+            </Button>
+          </NavbarItem>
+          <Divider orientation="vertical" />
+          <Button color="primary" className="text-white" variant="solid" startContent={<Sparkles />}>
+            {/* Add to Cart */}
+            Mint Design
+          </Button>
+        </NavbarContent>
+      </Navbar>
+      <div className="w-full min-h-screen bg-gray-100">
+        <main className="container mx-auto py-8">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Design toolbar */}
+            <div className="w-full lg:w-1/4 flex flex-col gap-4">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <Tabs
+                  aria-label="Design Options"
+                  color="primary"
+                  variant="solid"
+                  fullWidth
+                  selectedKey={activeTab}
+                  onSelectionChange={(key) => setActiveTab(key as string)}
+                  classNames={{
+                    tabList: "gap-0 w-full relative rounded-none p-0 border-b border-divider",
+                    cursor: "w-full rounded-none",
+                    tab: "flex-1 px-0 font-medium text-sm h-12",
+                    tabContent: "group-data-[selected=true]:text-white",
+                  }}
+                >
+                  <Tab
+                    key="color"
+                    title={
+                      <div className="flex items-center justify-center space-x-1">
+                        <MdPalette />
+                        <span>Color</span>
+                      </div>
+                    }
+                  />
+                  <Tab
+                    key="upload"
+                    title={
+                      <div className="flex items-center justify-center space-x-1">
+                        <FaUpload />
+                        <span>Upload</span>
+                      </div>
+                    }
+                  />
+                  <Tab
+                    key="text"
+                    title={
+                      <div className="flex items-center justify-center space-x-1">
+                        <PiTextAaBold />
+                        <span>Text</span>
+                      </div>
+                    }
+                  />
+                  <Tab
+                    key="art"
+                    title={
+                      <div className="flex items-center justify-center space-x-1">
+                        <IoLogoDeviantart />
+                        <span>Art</span>
+                      </div>
+                    }
+                  />
+                </Tabs>
+
+                {renderTabContent()}
               </div>
 
-              <div className="relative w-full aspect-[3/4] border border-gray-200 rounded-lg overflow-hidden bg-white"
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img
-                    src={frontShirt.src}
-                    alt={`${selectedProduct} ${productView} view`}
-                    className="w-full object-contain"
-                    style={{
-                      filter: `drop-shadow(0 0 0 ${selectedColor})`,
-                      backgroundColor: selectedColor,
-                      mixBlendMode: 'multiply'
-                    }}
-                  />
+              {/* Layers panel */}
+              <div className="bg-white rounded-lg shadow-lg p-5">
+                <div className="flex justify-between items-center mb-4">
+                  <h6 className="font-bold text-lg">Design Layers</h6>
+                  <div className="flex space-x-2">
+                    <Button isIconOnly size="sm" variant="light" onClick={handleUndo}>
+                      <FaUndo />
+                    </Button>
+                    <Button isIconOnly size="sm" variant="light" onClick={handleRedo}>
+                      <FaRedo />
+                    </Button>
+                  </div>
+                </div>
 
-                  {/* Render text elements */}
+                <div className="space-y-2 max-h-64 overflow-y-auto">
                   {textElements.map((element) => (
                     <div
                       key={element.id}
-                      className={`absolute cursor-move ${activeElement === element.id ? "ring-2 ring-blue-500" : ""}`}
-                      style={{
-                        left: `${element.position.x}px`,
-                        top: `${element.position.y}px`,
-                        transform: `rotate(${element.rotation}deg) scale(${element.scale})`,
-                        fontFamily: element.font,
-                        fontSize: `${element.size}px`,
-                        color: element.color,
-                        fontWeight: element.bold ? "bold" : "normal",
-                        fontStyle: element.italic ? "italic" : "normal",
-                        textDecoration: element.underline ? "underline" : "none",
-                      }}
-                      onMouseDown={(e) => handleMouseDown(e, element.id)}
-                    // onClick={() => setActiveElement(element.id)}
+                      className={`p-3 border rounded-md cursor-pointer flex justify-between items-center ${activeElement === element.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                        }`}
+                      onClick={() => setActiveElement(element.id)}
                     >
-                      {element.value}
+                      <div className="flex items-center">
+                        <FaFont className="mr-2 text-gray-600" />
+                        <span className="text-sm truncate max-w-40">{element.value}</span>
+                      </div>
+                      <Button
+                        isIconOnly
+                        size="sm"
+                        variant="light"
+                        color="danger"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setTextElements(textElements.filter(t => t.id !== element.id));
+                          if (activeElement === element.id) setActiveElement(null);
+                          saveToHistory();
+                        }}
+                      >
+                        <FaXmark />
+                      </Button>
                     </div>
                   ))}
 
-                  {/* Render image elements */}
                   {imageElements.map((element) => (
                     <div
                       key={element.id}
-                      className={`absolute cursor-move ${activeElement === element.id ? "ring-2 ring-blue-500" : ""}`}
-                      style={{
-                        left: `${element.position.x}px`,
-                        top: `${element.position.y}px`,
-                        transform: `rotate(${element.rotation}deg) scale(${element.scale})`,
-                        width: "100px",
-                        height: "100px",
-                      }}
-                      onMouseDown={(e) => handleMouseDown(e, element.id)}
-                    // onClick={() => setActiveElement(element.id)}
+                      className={`p-3 border rounded-md cursor-pointer flex justify-between items-center ${activeElement === element.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                        }`}
+                      onClick={() => setActiveElement(element.id)}
                     >
-                      <img
-                        src={element.src}
-                        alt={element.type === "clipart" ? element.name : "Uploaded image"}
-                        className="w-full h-full object-contain"
-                      />
+                      <div className="flex items-center">
+                        <BsImageFill className="mr-2 text-gray-600" />
+                        <span className="text-sm truncate max-w-40">
+                          {element.type === "clipart" ? element.name : "Image"}
+                        </span>
+                      </div>
+                      <Button
+                        isIconOnly
+                        size="sm"
+                        variant="light"
+                        color="danger"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setImageElements(imageElements.filter(img => img.id !== element.id));
+                          if (activeElement === element.id) setActiveElement(null);
+                          saveToHistory();
+                        }}
+                      >
+                        <FaXmark />
+                      </Button>
                     </div>
                   ))}
+
+                  {textElements.length === 0 && imageElements.length === 0 && (
+                    <p className="text-gray-500 text-sm text-center py-4">
+                      No elements yet. Add text or images to your design.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Product details and options */}
-          <div className="w-full lg:w-1/4">
-            <div className="bg-white rounded-lg shadow-lg p-5">
-              <h6 className="font-bold text-lg mb-4">Product Options</h6>
+            {/* Design preview */}
+            <div className="w-full lg:w-1/2">
+              <div className="bg-white rounded-lg shadow-lg p-5">
+                <div className="flex justify-between items-center mb-4">
+                  <h6 className="font-bold text-lg">Design Preview</h6>
+                  <div className="flex space-x-2">
+                    <Button variant="bordered" onClick={() => setProductView(productView === "front" ? "back" : "front")}>
+                      {productView === "front" ? "View Back" : "View Front"}
+                    </Button>
+                  </div>
+                </div>
 
-              <div className="space-y-4 relative">
-                <Select
-                  label="Product Type"
-                  placeholder="Select a product type"
-                  selectedKeys={[selectedProduct]}
-                  onChange={(e) => setSelectedProduct(e.target.value)}
-                >
-                  {products.map((product) => (
-                    <SelectItem key={product.id}>
-                      {product.name}
-                    </SelectItem>
-                  ))}
-                </Select>
+                <div className="relative w-full aspect-[3/4] border border-gray-200 rounded-lg overflow-hidden bg-white"
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src={frontShirt.src}
+                      alt={`${selectedProduct} ${productView} view`}
+                      className="w-full object-contain"
+                      style={{
+                        filter: `drop-shadow(0 0 0 ${selectedColor})`,
+                        backgroundColor: selectedColor,
+                        mixBlendMode: 'multiply'
+                      }}
+                    />
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Size
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {sizes.map((sizeOption) => (
-                      <Button
-                        key={sizeOption}
-                        size="sm"
-                        variant={size === sizeOption ? "solid" : "bordered"}
-                        color={size === sizeOption ? "primary" : "default"}
-                        onClick={() => setSize(sizeOption)}
-                        className={`min-w-12 ${size === sizeOption ? "text-white" : ""}`}
+                    {/* Render text elements */}
+                    {textElements.map((element) => (
+                      <div
+                        key={element.id}
+                        className={`absolute cursor-move ${activeElement === element.id ? "ring-2 ring-blue-500" : ""}`}
+                        style={{
+                          left: `${element.position.x}px`,
+                          top: `${element.position.y}px`,
+                          transform: `rotate(${element.rotation}deg) scale(${element.scale})`,
+                          fontFamily: element.font,
+                          fontSize: `${element.size}px`,
+                          color: element.color,
+                          fontWeight: element.bold ? "bold" : "normal",
+                          fontStyle: element.italic ? "italic" : "normal",
+                          textDecoration: element.underline ? "underline" : "none",
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, element.id)}
+                      // onClick={() => setActiveElement(element.id)}
                       >
-                        {sizeOption.toUpperCase()}
-                      </Button>
+                        {element.value}
+                      </div>
+                    ))}
+
+                    {/* Render image elements */}
+                    {imageElements.map((element) => (
+                      <div
+                        key={element.id}
+                        className={`absolute cursor-move ${activeElement === element.id ? "ring-2 ring-blue-500" : ""}`}
+                        style={{
+                          left: `${element.position.x}px`,
+                          top: `${element.position.y}px`,
+                          transform: `rotate(${element.rotation}deg) scale(${element.scale})`,
+                          width: "100px",
+                          height: "100px",
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, element.id)}
+                      // onClick={() => setActiveElement(element.id)}
+                      >
+                        <img
+                          src={element.src}
+                          alt={element.type === "clipart" ? element.name : "Uploaded image"}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Quantity
-                  </label>
-                  <div className="flex items-center">
-                    <Button
-                      isIconOnly
-                      size="sm"
-                      variant="bordered"
-                      onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                    >
-                      -
-                    </Button>
-                    <span className="mx-4 font-medium">{quantity}</span>
-                    <Button
-                      isIconOnly
-                      size="sm"
-                      variant="bordered"
-                      onClick={() => setQuantity(quantity + 1)}
-                    >
-                      +
-                    </Button>
+            {/* Product details and options */}
+            <div className="w-full lg:w-1/4">
+              <div className="bg-white rounded-lg shadow-lg p-5">
+                <h6 className="font-bold text-lg mb-4">Product Options</h6>
+
+                <div className="space-y-4 relative">
+                  <Select
+                    label="Product Type"
+                    placeholder="Select a product type"
+                    selectedKeys={[selectedProduct]}
+                    onChange={(e) => setSelectedProduct(e.target.value)}
+                  >
+                    {products.map((product) => (
+                      <SelectItem key={product.id}>
+                        {product.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Size
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {sizes.map((sizeOption) => (
+                        <Button
+                          key={sizeOption}
+                          size="sm"
+                          variant={size === sizeOption ? "solid" : "bordered"}
+                          color={size === sizeOption ? "primary" : "default"}
+                          onClick={() => setSize(sizeOption)}
+                          className={`min-w-12 ${size === sizeOption ? "text-white" : ""}`}
+                        >
+                          {sizeOption.toUpperCase()}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Quantity
+                    </label>
+                    <div className="flex items-center">
+                      <Button
+                        isIconOnly
+                        size="sm"
+                        variant="bordered"
+                        onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                      >
+                        -
+                      </Button>
+                      <span className="mx-4 font-medium">{quantity}</span>
+                      <Button
+                        isIconOnly
+                        size="sm"
+                        variant="bordered"
+                        onClick={() => setQuantity(quantity + 1)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 border-t pt-4">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-gray-700">Price:</span>
+                    <span className="text-xl font-bold">${calculatePrice().toFixed(2)}</span>
+                  </div>
+
+                  <Button
+                    color="primary"
+                    size="lg"
+                    className="w-full text-white"
+
+                    startContent={<Sparkles />}
+                  >
+                    {/* Add to Cart */}
+                    Mint Design
+                  </Button>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-lg p-5 mt-6">
+                <h6 className="font-bold text-lg mb-4">Design Summary</h6>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Product:</span>
+                    <span className="font-medium">
+                      {products.find(p => p.id === selectedProduct)?.name || "T-Shirt"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Color:</span>
+                    <span className="font-medium">
+                      {colorOptions.find(c => c.value === selectedColor)?.label || "White"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Size:</span>
+                    <span className="font-medium">{size.toUpperCase()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Elements:</span>
+                    <span className="font-medium">{textElements.length + imageElements.length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Quantity:</span>
+                    <span className="font-medium">{quantity}</span>
                   </div>
                 </div>
               </div>
-
-              <div className="mt-8 border-t pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-gray-700">Price:</span>
-                  <span className="text-xl font-bold">${calculatePrice().toFixed(2)}</span>
-                </div>
-
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="w-full text-white"
-                  
-                  startContent={<FaShoppingCart />}
-                >
-                  Add to Cart
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-lg p-5 mt-6">
-              <h6 className="font-bold text-lg mb-4">Design Summary</h6>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Product:</span>
-                  <span className="font-medium">
-                    {products.find(p => p.id === selectedProduct)?.name || "T-Shirt"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Color:</span>
-                  <span className="font-medium">
-                    {colorOptions.find(c => c.value === selectedColor)?.label || "White"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Size:</span>
-                  <span className="font-medium">{size.toUpperCase()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Elements:</span>
-                  <span className="font-medium">{textElements.length + imageElements.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Quantity:</span>
-                  <span className="font-medium">{quantity}</span>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <footer className="bg-gray-200 text-white py-6 mt-8">
-        <div className="container mx-auto px-4">
-          <img src={logo.src} className="w-[100px] h-auto mx-auto" />
-          <div className="border-t border-gray-300 mt-6 pt-6 text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} Design Studio Pro. All rights reserved.
+        {showSaveDialog && <SaveDesignDialog />}
+        {showLoadDialog && <LoadDesignDialog />}
+
+        <footer className="bg-gray-200 text-white py-6 mt-8">
+          <div className="container mx-auto px-4">
+            <img src={logo.src} className="w-[100px] h-auto mx-auto" />
+            <div className="border-t border-gray-300 mt-6 pt-6 text-center text-gray-500 text-sm">
+              © {new Date().getFullYear()} Design Studio Pro. All rights reserved.
+            </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </>
   );
 };
 
