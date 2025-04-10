@@ -1,20 +1,20 @@
 import React from "react";
+import logo from "../../../public/logo.png";
+import Image from "next/image";
+import { FaSave, FaShoppingCart } from "react-icons/fa";
+import Link from "next/link";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   Divider,
-} from "@nextui-org/react";
-import logo from "../../../public/logo.png";
-import Image from "next/image";
-import { TiThMenu } from "react-icons/ti";
-import { FaUser } from "react-icons/fa";
+  Button
+} from "@heroui/react";
 
 export const DesignPageNav = () => {
   return (
-    <Navbar maxWidth="full" shouldHideOnScroll>
+    <Navbar maxWidth="full" shouldHideOnScroll className="py-4">
       <NavbarBrand>
         <Link href="/">
           <Image src={logo} className="w-[120px] h-auto" alt="100md Tees" />
@@ -23,17 +23,17 @@ export const DesignPageNav = () => {
 
       <NavbarContent justify="end" className="font-outfit">
         <NavbarItem>
-          <Link href="/profile" className="flex items-center gap-2">
-            <FaUser />
-            My Account
-          </Link>
+          <Button color="primary" variant="light" startContent={<FaSave />}>
+            Save Design
+          </Button>
         </NavbarItem>
         <Divider orientation="vertical" />
-        <NavbarItem className="flex items-center gap-2">
-          <TiThMenu />
-          Menu
-        </NavbarItem>
+        <Button color="primary" className="text-white" variant="solid" startContent={<FaShoppingCart />}>
+          Add to Cart
+        </Button>
       </NavbarContent>
     </Navbar>
   );
 };
+
+

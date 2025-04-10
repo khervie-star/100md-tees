@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Inter, Outfit, Plus_Jakarta_Sans } from "next/font/google";
+
+
 import "./globals.css";
+import "@burnt-labs/abstraxion/dist/index.css";
+import "@burnt-labs/ui/dist/index.css";
 import { ProviderTree } from "@/provider-tree";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,6 +19,13 @@ const outfit = Outfit({
   display: "swap",
   variable: "--font-outfit",
 });
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-bricolage",
+});
+
 
 const jk_sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -84,7 +96,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
-        className={`${inter.variable} ${outfit.variable} ${jk_sans.variable}`}>
+        className={`${inter.variable} ${outfit.variable} ${jk_sans.variable} ${bricolage.variable} font-bricolage`}>
         <ProviderTree>{children}</ProviderTree>
       </body>
     </html>

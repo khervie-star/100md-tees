@@ -4,8 +4,10 @@ import { AuthProvider, UserProvider } from "@/context";
 import React, { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CustomToastBar } from "@/components/ToastBar";
-import { NextUIProvider } from "@nextui-org/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { HeroUIProvider } from "@heroui/system";
+import { AbstraxionProvider } from "@burnt-labs/abstraxion";
+import { treasuryConfig } from "@/config/xion.config";
 
 const queryClient = new QueryClient();
 
@@ -14,8 +16,10 @@ const clientId =
 
 export const ProviderTree = ({ children }: { children: ReactNode }) => {
   return (
-    <NextUIProvider>
+    <HeroUIProvider>
       <QueryClientProvider client={queryClient}>
+        <AbstraxionProvider
+          config={treasuryConfig}>
         <AuthProvider>
           <GoogleOAuthProvider clientId={clientId}>
             <UserProvider>
@@ -23,8 +27,9 @@ export const ProviderTree = ({ children }: { children: ReactNode }) => {
               {children}
             </UserProvider>
           </GoogleOAuthProvider>
-        </AuthProvider>
+          </AuthProvider>
+          </AbstraxionProvider>
       </QueryClientProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   );
 };

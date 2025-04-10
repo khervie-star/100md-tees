@@ -11,7 +11,7 @@ export const CustomToastBar = () => {
     toasts
       .filter((t) => t.visible) // Only consider visible toasts
       .filter((_, i) => i >= TOAST_COUNT_LIMIT) // Is toast index over limit
-      .forEach((t) => toast.dismiss(t.id)); // Dismiss – Use toast.remove(t.id) removal without animation
+      .forEach((t) => toast.dismiss(t.id)); 
   }, [toasts]);
 
   return (

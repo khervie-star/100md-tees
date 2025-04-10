@@ -10,12 +10,28 @@ import {
   useState,
 } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
+import {
+  Abstraxion,
+  useAbstraxionAccount,
+  useModal
+} from "@burnt-labs/abstraxion";
 
 const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [intendedUrl, setIntendedUrl] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { data: { bech32Address }, isConnected, isConnecting } = useAbstraxionAccount();
+
+  // General state hooks
+  const [, setShow] = useModal();
+
+  // watch isConnected and isConnecting
+  // only added for testing
+  useEffect(() => {
+    console.log({ isConnected, isConnecting });
+  }, [isConnected, isConnecting])
+
 
   const token = getCookie("access_token");
 

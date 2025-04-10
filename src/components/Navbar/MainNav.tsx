@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -22,6 +22,8 @@ import logo from "../../../public/logo.png";
 import { FaRegUser } from "react-icons/fa6";
 import { useAuth } from "@/context";
 import { HiOutlineLogout } from "react-icons/hi";
+import { useModal, useAbstraxionAccount, Abstraxion } from "@burnt-labs/abstraxion";
+import { Button } from "@heroui/react";
 
 const products = [
   {
@@ -68,10 +70,21 @@ export const MainNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAuthenticated, handleLogout } = useAuth()!;
 
+  const { data: { bech32Address }, isConnected, isConnecting } = useAbstraxionAccount();
+
+  // General state hooks
+  const [, setShow] = useModal();
+
+  // watch isConnected and isConnecting
+  // only added for testing
+  useEffect(() => {
+    console.log({ isConnected, isConnecting });
+  }, [isConnected, isConnecting])
+
   return (
-    <header className="bg-white border-b border-solid border-green">
+    <header className="bg-white">
       <nav
-        className="container mx-auto flex w-full items-center justify-between p-6 lg:px-[100px] font-outfit"
+        className="container mx-auto flex w-full items-center justify-between p-6 lgpx-[100px]"
         aria-label="Global">
         <div className="flex items-center lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -85,7 +98,7 @@ export const MainNav = () => {
 
           <Popover.Group className="hidden lg:flex lg:gap-x-12 mx-10">
             <a
-              href="#"
+              href="/marketplace"
               className="text-sm font-semibold leading-6 text-gray-900">
               Marketplace
             </a>
@@ -151,12 +164,12 @@ export const MainNav = () => {
             </Popover>
 
             <a
-              href="#"
+              href="/design-studio"
               className="text-sm font-semibold leading-6 text-gray-900">
               Design room
             </a>
             <a
-              href="#"
+              href="/templates"
               className="text-sm font-semibold leading-6 text-gray-900">
               Templates
             </a>
@@ -181,16 +194,22 @@ export const MainNav = () => {
             </a>
           ) : (
             <div className="flex gap-4 items-center">
-              <Link
+              {/* <Link
                 href="/login"
                 className="text-sm font-semibold leading-6 text-green flex items-center gap-3">
                 Sign in
-              </Link>
-              <Link
-                href="/register"
+              </Link> */}
+                <Button
+                  onClick={() => { setShow(true) }}
+                  // href="/register"
+                  // href={"#"}
                 className="text-sm font-semibold leading-6 text-white bg-green border border-solid border-green rounded-full px-7 py-2 flex items-center gap-3">
-                Sign up
-              </Link>
+                  {bech32Address ? (
+                    <div className="flex items-center justify-center">VIEW ACCOUNT</div>
+                  ) : (
+                    "Login"
+                  )}
+              </Button>
             </div>
           )}
         </div>
@@ -201,7 +220,7 @@ export const MainNav = () => {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 font-outfit">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">100MD Tees</span>
@@ -246,19 +265,19 @@ export const MainNav = () => {
                   )}
                 </Disclosure>
                 <a
-                  href="#"
+                  href="/design-studio"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                  Features
+                  Design studio
                 </a>
                 <a
-                  href="#"
+                  href="/marketplace"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                   Marketplace
                 </a>
                 <a
-                  href="#"
+                  href="/templates"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                  Company
+                  Templates
                 </a>
               </div>
 
@@ -280,15 +299,19 @@ export const MainNav = () => {
                   </div>
                 ) : (
                   <div className="py-6 flex flex-col gap-4">
-                    <Link
+                    {/* <Link
                       href="/login"
                       className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-green hover:bg-gray-50">
                       Log in
-                    </Link>
+                    </Link> */}
                     <Link
                       href="/register"
                       className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
-                      Sign up
+                        {bech32Address ? (
+                          <div className="flex items-center justify-center">VIEW ACCOUNT</div>
+                        ) : (
+                          "CONNECT"
+                        )}
                     </Link>
                   </div>
                 )}
@@ -297,6 +320,7 @@ export const MainNav = () => {
           </div>
         </Dialog.Panel>
       </Dialog>
+      <Abstraxion onClose={() => setShow(false)} />
     </header>
   );
 };

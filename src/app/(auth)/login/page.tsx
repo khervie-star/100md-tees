@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 import { useAuth, useUser } from "@/context";
 import toast from "react-hot-toast";
 import { MdButton } from "@/components";
-import { Checkbox } from "@nextui-org/react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { Checkbox } from "@heroui/react";
 
 const Login = () => {
   const router = useRouter();

@@ -28,3 +28,10 @@ body {
   background-color: white !important;
   opacity: 1 !important;
 }
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

@@ -1,13 +1,13 @@
 import type { Config } from "tailwindcss";
 
-const { nextui } = require("@nextui-org/react");
+const { heroui } = require("@heroui/theme");
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -27,13 +27,14 @@ const config: Config = {
       fontFamily: {
         inter: ["var(--font-inter)"],
         outfit: ["var(--font-outfit)"],
+        bricolage: ["var(--font-bricolage)"],
         jk_sans: ["var(--font-jk_sans)"],
       },
     },
   },
   darkMode: "class",
   plugins: [
-    nextui({
+    heroui({
       addCommonColors: true,
       themes: {
         light: {
@@ -44,7 +45,6 @@ const config: Config = {
             secondary: "#718096",
           },
         },
-        // ... custom themes
       },
     }),
   ],
