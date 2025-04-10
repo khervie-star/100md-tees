@@ -37,6 +37,8 @@ const URL_BASE = "https://100md-tees.vercel.app/";
 
 export const metadata: Metadata = {
   metadataBase: new URL(URL_BASE),
+  title: "100MD Tees | Wear it. Own it. Mint it.",
+  description: "Customize apparel, mint your designs as NFTs, and earn with 100MD Tees - the future of fashion meets Web3.",
   alternates: {
     canonical: "/",
     languages: {
@@ -44,28 +46,27 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "100MD Tees",
-    description: "Software Development | Networking | IT Solutions",
+    title: "100MD Tees | Wear it. Own it. Mint it.",
+    description: "Design your own apparel, get it shipped, and own it as an NFT. Join the next-gen fashion marketplace on the blockchain.",
     url: URL_BASE,
     siteName: "100MD Tees",
     images: [
       {
-        url: `${URL_BASE}/logos/logo_trs/4.png`, // Must be an absolute URL
+        url: `${URL_BASE}/images/auth_images_1.png`,
         width: 800,
         height: 600,
+        alt: "100MD Tees Logo",
       },
       {
-        url: `${URL_BASE}/logos/logo_trs/4.png`, // Must be an absolute URL
+        url: `${URL_BASE}/images/auth_images_1.png`,
         width: 1800,
         height: 1600,
-        alt: "100MD Tees",
+        alt: "Mint your custom fashion NFT on 100MD Tees",
       },
     ],
     locale: "en_US",
     type: "website",
   },
-  title: "100MD Tees",
-  description: "Software Development | Networking | IT Solutions",
 };
 
 export default function RootLayout({
