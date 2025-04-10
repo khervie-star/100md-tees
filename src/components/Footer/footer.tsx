@@ -102,7 +102,7 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-slate/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-grey text-sm">&copy; {currentYear} ShirtNFT. All rights reserved.</p>
+                    <p className="text-grey text-sm">&copy; {currentYear} All rights reserved.</p>
                     <div className="flex gap-6">
                         <Link href="/terms" className="text-grey hover:text-green transition-colors text-sm">
                             Terms
