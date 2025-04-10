@@ -341,7 +341,12 @@ const DesignStudio = () => {
       const updated = imageElements.map(el =>
         el.id === activeElement ? { ...el, position: { x, y } } : el
       );
-      setImageElements(updated);
+      setImageElements(
+        updated.map((element) => ({
+          ...element,
+          rotation: Array.isArray(element.rotation) ? element.rotation[0] : element.rotation,
+        }))
+      );
     }
   };
 
@@ -412,7 +417,10 @@ const DesignStudio = () => {
                     minValue={10}
                     maxValue={72}
                     value={activeElementData.size}
-                    onChange={(value) => updateTextElement(activeElementData.id, { size: value })}
+                    onChange={(value) => {
+                      const sizeValue = Array.isArray(value) ? value[0] : value;
+                      updateTextElement(activeElementData.id, { size: sizeValue });
+                    }}
                     className="max-w-full"
                   />
                 </div>
@@ -471,7 +479,10 @@ const DesignStudio = () => {
                     minValue={0}
                     maxValue={359}
                     value={activeElementData.rotation}
-                    onChange={(value) => updateTextElement(activeElementData.id, { rotation: value })}
+                    onChange={(value) => {
+                      const rotationValue = Array.isArray(value) ? value[0] : value;
+                      updateTextElement(activeElementData.id, { rotation: rotationValue });
+                    }}
                     className="max-w-full"
                   />
                 </div>
@@ -484,7 +495,7 @@ const DesignStudio = () => {
                     minValue={0.5}
                     maxValue={3}
                     value={activeElementData.scale}
-                    onChange={(value) => updateTextElement(activeElementData.id, { scale: value })}
+                    onChange={(value) => updateTextElement(activeElementData.id, { scale: value as number })}
                     className="max-w-full"
                   />
                 </div>
@@ -538,7 +549,7 @@ const DesignStudio = () => {
                       const updated = imageElements.map(element =>
                         element.id === activeElementData.id ? { ...element, rotation: value } : element
                       );
-                      setImageElements(updated);
+                      // setImageElements(updated);
                     }}
                     className="max-w-full"
                   />
@@ -556,7 +567,7 @@ const DesignStudio = () => {
                       const updated = imageElements.map(element =>
                         element.id === activeElementData.id ? { ...element, scale: value } : element
                       );
-                      setImageElements(updated);
+                      // setImageElements(updated);
                     }}
                     className="max-w-full h-4"
                   />
