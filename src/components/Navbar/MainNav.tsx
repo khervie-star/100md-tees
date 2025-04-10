@@ -185,30 +185,26 @@ export const MainNav = () => {
           </button>
         </div>
         <div className="hidden lg:flex lg:justify-end">
-          {isAuthenticated ? (
-            <a
-              href="/account"
-              className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-3">
-              <FaRegUser className="w-5 h-5" />
-              My Account
-            </a>
+          {bech32Address ? (
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-500">
+                {bech32Address.slice(0, 6)}...{bech32Address.slice(-4)}
+              </div>
+              <Link
+                href="/account"
+                className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-3"
+              >
+                <FaRegUser className="w-5 h-5" />
+                My Account
+              </Link>
+            </div>
           ) : (
             <div className="flex gap-4 items-center">
-              {/* <Link
-                href="/login"
-                className="text-sm font-semibold leading-6 text-green flex items-center gap-3">
-                Sign in
-              </Link> */}
-                <Button
-                  onClick={() => { setShow(true) }}
-                  // href="/register"
-                  // href={"#"}
-                className="text-sm font-semibold leading-6 text-white bg-green border border-solid border-green rounded-full px-7 py-2 flex items-center gap-3">
-                  {bech32Address ? (
-                    <div className="flex items-center justify-center">VIEW ACCOUNT</div>
-                  ) : (
-                    "Login"
-                  )}
+              <Button
+                onClick={() => { setShow(true) }}
+                className="text-sm font-semibold leading-6 text-white bg-green border border-solid border-green rounded-full px-7 py-2 flex items-center gap-3"
+              >
+                Login
               </Button>
             </div>
           )}
@@ -307,11 +303,11 @@ export const MainNav = () => {
                     <Link
                       href="/register"
                       className="w-full text-center -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-green text-white hover:bg-green/80">
-                        {bech32Address ? (
-                          <div className="flex items-center justify-center">VIEW ACCOUNT</div>
-                        ) : (
-                          "CONNECT"
-                        )}
+                      {bech32Address ? (
+                        <div className="flex items-center justify-center">VIEW ACCOUNT</div>
+                      ) : (
+                        "CONNECT"
+                      )}
                     </Link>
                   </div>
                 )}
