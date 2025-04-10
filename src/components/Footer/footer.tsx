@@ -1,5 +1,7 @@
 import Link from "next/link"
-import { Shirt, Instagram, Twitter, Facebook, Youtube } from "lucide-react"
+import { Instagram, Twitter, Facebook, Youtube } from "lucide-react"
+import logo from "../../../public/logo.png";
+import Image from "next/image";
 
 export function Footer() {
     const currentYear = new Date().getFullYear()
@@ -8,7 +10,7 @@ export function Footer() {
         {
             title: "Product",
             links: [
-                { name: "Design Studio", href: "/design" },
+                { name: "Design Studio", href: "/design-studio" },
                 { name: "Marketplace", href: "/marketplace" },
                 { name: "NFT Minting", href: "/nft" },
                 { name: "Rewards Program", href: "/rewards" },
@@ -49,10 +51,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
                     <div className="lg:col-span-2">
                         <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-10 h-10 bg-green rounded-full flex items-center justify-center">
-                                <Shirt className="text-white100" size={20} />
-                            </div>
-                            <span className="font-bold text-xl text-black">ShirtNFT</span>
+                             <Image src={logo} className="w-[120px] h-auto" alt="100md Tees" />
                         </Link>
                         <p className="text-grey mb-6 max-w-md">
                             The ultimate platform for designing custom shirts, minting them as NFTs, and earning rewards when others

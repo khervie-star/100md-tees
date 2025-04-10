@@ -10,8 +10,10 @@ import { Banner, Footer, MainNav } from "@/components"
 import { Button } from '@heroui/button';
 import text from "@/assets/images/text.png"
 import { Avatar, AvatarGroup } from "@heroui/react"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -36,6 +38,15 @@ export default function Home() {
       },
     },
   }
+
+  const goToStudio = () => {
+    router.push("/design-studio")
+  }
+
+  const goToMarketplace = () => {
+    router.push("/marketplace")
+  }
+
 
   return (
     <div className="min-h-screen bg-white100 font-bricolage">
@@ -72,10 +83,11 @@ export default function Home() {
                   radius="full"
                   className="font-medium text-white100"
                   endContent={<ArrowRight size={18} />}
+                  onClick={goToStudio}
                 >
                   Start Designing
                 </Button>
-                <Button variant="bordered" color="primary" size="lg" radius="full" className="font-medium">
+                <Button variant="bordered" color="primary" size="lg" radius="full" className="font-medium" onClick={goToMarketplace}>
                   Explore Marketplace
                 </Button>
               </div>
@@ -317,6 +329,7 @@ export default function Home() {
                 radius="full"
                 className="font-medium text-white100 mt-4"
                 endContent={<ArrowRight size={18} />}
+                onClick={goToStudio}
               >
                 Start Creating Today
               </Button>
@@ -456,10 +469,11 @@ export default function Home() {
                 radius="full"
                 className="font-medium text-green bg-white100"
                 endContent={<ArrowRight size={18} />}
+                onClick={goToStudio}
               >
                 Start Designing Now
               </Button>
-              <Button variant="bordered" size="lg" radius="full" className="font-medium text-white100 border-white100">
+              <Button variant="bordered" size="lg" radius="full" className="font-medium text-white100 border-white100" onClick={goToMarketplace}>
                 Explore Marketplace
               </Button>
             </div>
