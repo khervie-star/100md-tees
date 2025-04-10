@@ -249,7 +249,7 @@ export function ComingSoonPage({
                                 exit={{ opacity: 0, y: -10 }}
                             >
                                 <CheckCircle size={20} />
-                                <span>We'll notify you when we launch!</span>
+                                <span>We&apos;ll notify you when we launch!</span>
                             </motion.div>
                         ) : (
                             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">

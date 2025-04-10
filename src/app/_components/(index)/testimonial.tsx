@@ -27,7 +27,7 @@ export function TestimonialCard({ quote, author, role, avatar, delay = 0 }: Test
                     </span>
                 ))}
             </div>
-            <p className="text-grey mb-6">"{quote}"</p>
+            <p className="text-grey mb-6">&quot;{quote}&quot;</p>
             <div className="flex items-center gap-3">
                 <Image src={avatar || "/placeholder.svg"} alt={author} width={60} height={60} className="rounded-full" />
                 <div>
